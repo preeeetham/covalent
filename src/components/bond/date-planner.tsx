@@ -65,7 +65,7 @@ export function DatePlanner({ bondId, viewerId, iAmA, partnerName, plan, venue, 
     <section id="plan" aria-label="First date" className="mt-6 scroll-mt-20">
       <div className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-soft)]">
         <h2 className="flex items-center gap-2 font-display text-2xl text-ink">
-          <CalendarCheck2 className="size-5 text-bond" /> First date
+          <CalendarCheck2 className="size-5 text-bond-text" /> First date
         </h2>
 
         {!live && (

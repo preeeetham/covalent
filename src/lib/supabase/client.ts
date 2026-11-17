@@ -14,3 +14,15 @@ export function browserClient() {
   }
   return client;
 }
+
+/**
+ * A browser client whose realtime socket is authenticated as the signed-in user.
+ * supabase-js also does this on its INITIAL_SESSION event, but asynchronously; awaiting it
+ * here guarantees a channel never joins as `anon` (which RLS would leave empty).
+ */
+export async function realtimeClient() {
+  const sb = browserClient();
+  const { data } = await sb.auth.getSession();
+  if (data.session) await sb.realtime.setAuth(data.session.access_token);
+  return sb;
+}

@@ -21,7 +21,7 @@ export default async function SharedPlan(props: PageProps<"/share/date/[token]">
         <h1 className="mt-2 font-display text-3xl text-ink">{names.join(" & ")}</h1>
         <div className="mt-5 space-y-3 text-ink">
           <p className="flex items-start gap-3">
-            <MapPin className="mt-0.5 size-5 text-bond" />
+            <MapPin className="mt-0.5 size-5 text-bond-text" />
             <span>
               <strong>{venue?.name}</strong>
               <br />
@@ -29,7 +29,7 @@ export default async function SharedPlan(props: PageProps<"/share/date/[token]">
             </span>
           </p>
           <p className="flex items-center gap-3">
-            <Clock className="size-5 text-bond" /> {formatIST(plan.starts_at, { year: "numeric" })}
+            <Clock className="size-5 text-bond-text" /> {formatIST(plan.starts_at, { year: "numeric" })}
           </p>
         </div>
         {venue?.map_url && (

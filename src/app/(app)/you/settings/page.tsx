@@ -46,7 +46,7 @@ export default async function SettingsPage() {
 
       <Section title="Covalent+">
         <div className="flex items-start gap-3 rounded-2xl border border-dashed border-line p-4">
-          <Sparkles className="mt-0.5 size-5 shrink-0 text-bond" />
+          <Sparkles className="mt-0.5 size-5 shrink-0 text-bond-text" />
           <div>
             <p className="font-semibold text-ink">Coming later · ₹149/month</p>
             <p className="text-sm text-ink-2">Advanced filters, see who invited you first, priority support. The core product stays free forever.</p>

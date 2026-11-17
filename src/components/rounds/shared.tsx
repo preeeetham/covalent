@@ -39,11 +39,11 @@ export function ResultFooter({ bondId, nextRound, children }: { bondId: string; 
     <div className="mt-8 space-y-3">
       {children}
       {nextRound ? (
-        <Link href={`/bonds/${bondId}/round/${nextRound}`} className="flex min-h-[56px] items-center justify-center rounded-full bg-litmus font-semibold text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]">
+        <Link href={`/bonds/${bondId}/round/${nextRound}`} className="flex min-h-[56px] items-center justify-center rounded-full bg-litmus-strong font-semibold text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]">
           On to Round {nextRound}
         </Link>
       ) : (
-        <Link href={`/bonds/${bondId}`} className="flex min-h-[56px] items-center justify-center rounded-full bg-litmus font-semibold text-white">
+        <Link href={`/bonds/${bondId}`} className="flex min-h-[56px] items-center justify-center rounded-full bg-litmus-strong font-semibold text-white">
           Back to the bond
         </Link>
       )}

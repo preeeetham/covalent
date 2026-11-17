@@ -9,7 +9,7 @@ type Size = "md" | "lg" | "sm";
 
 const VARIANTS: Record<Variant, string> = {
   // The litmus gradient is reserved for the ONE primary action on a screen.
-  primary: "bg-litmus text-white shadow-[0_8px_24px_-10px_rgb(124_77_255/0.7)] hover:brightness-105 active:brightness-95",
+  primary: "bg-litmus-strong text-white shadow-[0_8px_24px_-10px_rgb(124_77_255/0.7)] hover:brightness-105 active:brightness-95",
   ink: "bg-ink text-paper hover:opacity-90",
   secondary: "border border-line bg-surface text-ink hover:bg-surface-2",
   ghost: "text-ink-2 hover:bg-surface-2 hover:text-ink",

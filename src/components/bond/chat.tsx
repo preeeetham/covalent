@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Lock, SendHorizonal, ShieldAlert } from "lucide-react";
-import { browserClient } from "@/lib/supabase/client";
+import { realtimeClient } from "@/lib/supabase/client";
 import { postMessage, requestPersonaReply } from "@/app/actions/bonds";
 import { detectContactInfo } from "@/lib/safety";
 import { toast } from "@/components/ui/toast";
@@ -30,6 +31,7 @@ export function Chat({
   revealed: boolean;
   initial: Msg[];
 }) {
+  const router = useRouter();
   const [messages, setMessages] = useState<Msg[]>(initial);
   const [text, setText] = useState("");
   const [typing, setTyping] = useState(false);
@@ -50,19 +52,30 @@ export function Chat({
 
   // Realtime: new messages in this bond (RLS ensures only members receive them).
   useEffect(() => {
-    const sb = browserClient();
-    const ch = sb
-      .channel(`chat:${bondId}`)
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `bond_id=eq.${bondId}` }, (payload) => {
-        const m = payload.new as Msg;
-        setMessages((xs) => (xs.some((x) => x.id === m.id) ? xs : [...xs, m]));
-        if (m.sender_id !== viewerId) setTyping(false);
-      })
-      .subscribe();
+    let cancelled = false;
+    let cleanup = () => {};
+    realtimeClient().then((sb) => {
+      if (cancelled) return;
+      const ch = sb
+        .channel(`chat:${bondId}`)
+        // The change stream attaches a moment after SUBSCRIBED. When it's ready, refresh once
+        // from the server so a message sent in that gap isn't missed.
+        .on("system", {}, (p: { extension?: string; status?: string }) => {
+          if (p.extension === "postgres_changes" && p.status === "ok") router.refresh();
+        })
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `bond_id=eq.${bondId}` }, (payload) => {
+          const m = payload.new as Msg;
+          setMessages((xs) => (xs.some((x) => x.id === m.id) ? xs : [...xs, m]));
+          if (m.sender_id !== viewerId) setTyping(false);
+        })
+        .subscribe();
+      cleanup = () => sb.removeChannel(ch);
+    });
     return () => {
-      sb.removeChannel(ch);
+      cancelled = true;
+      cleanup();
     };
-  }, [bondId, viewerId]);
+  }, [bondId, viewerId, router]);
 
   // Keep the newest message and the composer in view (above the tab bar) as the chat grows.
   const first = useRef(true);
@@ -170,7 +183,7 @@ export function Chat({
           placeholder={`Message ${partnerName}…`}
           className="max-h-32 min-h-[44px] flex-1 resize-none bg-transparent px-3 py-2.5 text-[15px] text-ink outline-none placeholder:text-ink-3"
         />
-        <button type="submit" disabled={!text.trim() || pending} aria-label="Send" className="grid size-11 shrink-0 place-items-center rounded-full bg-litmus text-white disabled:opacity-40">
+        <button type="submit" disabled={!text.trim() || pending} aria-label="Send" className="grid size-11 shrink-0 place-items-center rounded-full bg-litmus-strong text-white disabled:opacity-40">
           <SendHorizonal className="size-5" />
         </button>
       </form>

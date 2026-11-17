@@ -12,19 +12,19 @@ export function PersonHeader({ person, compact }: { person: PublicProfile; compa
   return (
     <div>
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <h3 className={cn("font-display leading-none text-ink", compact ? "text-2xl" : "text-[30px]")}>
+        <h2 className={cn("font-display leading-none text-ink", compact ? "text-2xl" : "text-[30px]")}>
           {person.first_name}
           {person.age ? <span className="text-ink-2">, {person.age}</span> : null}
-        </h3>
+        </h2>
         {person.verified && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-bond-soft px-2 py-0.5 text-[11px] font-semibold text-bond" title="Education and identity verified through eLitmus">
+          <span className="inline-flex items-center gap-1 rounded-full bg-bond-soft px-2 py-0.5 text-[11px] font-semibold text-bond-text" title="Education and identity verified through eLitmus">
             <BadgeCheck className="size-3.5" /> Verified
           </span>
         )}
         {person.is_demo && <span className="rounded-full border border-line px-2 py-0.5 text-[11px] font-medium text-ink-3">Demo profile</span>}
       </div>
       <p className="mt-1.5 text-sm text-ink-2">
-        {[person.role, person.company && `at a ${person.company.toLowerCase()}`].filter(Boolean).join(" ")}
+        {[person.role, person.company && `at ${/^[aeiou]/i.test(person.company) ? "an" : "a"} ${person.company.toLowerCase()}`].filter(Boolean).join(" ")}
         {person.hometown && <> · from {person.hometown}</>}
       </p>
       <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-medium">
@@ -46,7 +46,7 @@ export function SharedElements({ person, myElements }: { person: PublicProfile; 
   return (
     <div>
       <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-3">
-        Elements {shared > 0 && <span className="normal-case tracking-normal text-bond">· {shared} in common</span>}
+        Elements {shared > 0 && <span className="normal-case tracking-normal text-bond-text">· {shared} in common</span>}
       </p>
       <div className="no-scrollbar -mx-5 flex gap-2.5 overflow-x-auto px-5 pb-2 pt-1">
         {sorted.map((id) => (

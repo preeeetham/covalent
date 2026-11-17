@@ -14,7 +14,7 @@ export function BlockedList({ people }: { people: { id: string; name: string }[]
       {people.map((p) => (
         <li key={p.id} className="flex min-h-[48px] items-center justify-between px-4">
           <span className="text-ink">{p.name}</span>
-          <button disabled={pending} onClick={() => start(async () => { if (handle(await unblock(p.id), "Unblocked.")) router.refresh(); })} className="min-h-[44px] text-sm font-semibold text-bond">
+          <button disabled={pending} onClick={() => start(async () => { if (handle(await unblock(p.id), "Unblocked.")) router.refresh(); })} className="min-h-[44px] text-sm font-semibold text-bond-text">
             Unblock
           </button>
         </li>

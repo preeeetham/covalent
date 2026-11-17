@@ -88,6 +88,16 @@ Research numbers come from industry press and vendor reports (Nov 2026 web resea
 | 36 | Jittery scrolling reported | Main-thread frames were fine (~8 ms); the cost was compositor work repeated every scroll frame: a scroll-linked `blur()` on the hero, frosted-glass `backdrop-filter` on the fixed tab bar and sticky headers, SVG-noise grain with `mix-blend-mode` on every photo, and SVG orbit rotations forcing repaints | Hero now **crossfades opacity** over a pre-blurred layer; headers/tab bar are **solid**; grain is a **static PNG tile on its own GPU layer**, no blend modes; orbits rotate as **HTML layers** | Keeping the effects and hoping for fast GPUs |
 | 37 | Mouse-wheel feel | Wheels on macOS/Windows scroll in ~100 px steps | **Lenis** smooths wheel input (eased, ~16 px/frame max); touch stays native; off for `prefers-reduced-motion`; dialogs and nested scroll areas keep native scrolling | Native stepped wheel scrolling; heavier scroll-jacking libraries |
 
+## 2026-11-17 — Submission polish
+
+| # | What we considered | Finding | Decision | Rejected alternative |
+|---|---|---|---|---|
+| 38 | Demo avatars | Random seeds gave some women male-looking illustrations ("Meera") | Pick hair and beard **per gender** from styles chosen by eye from a contact sheet of all 63; headscarf styles are never auto-assigned from a name | Random seeds; stock photos of real people |
+| 39 | Free Supabase pausing after ~7 idle days | Reviewers may open the app weeks later | **Daily Vercel Cron** hits `/api/cron/keepalive` (secret-protected), which makes one real query | Asking reviewers/owner to wake the project manually |
+| 40 | Seeded chats were missing | Bulk inserts send the union of columns, so rows without `kind` sent NULL into a NOT NULL column and the whole batch failed **silently** | Set `kind` explicitly and make the seed **throw on any insert error**; smoke test now asserts seeded chat exists | Ignoring insert results |
+| 41 | Realtime robustness | The change stream attaches a few seconds after SUBSCRIBED (longer on hosted); a message in that gap could be missed | Await the session before subscribing, and **refresh once when the stream reports ready**; smoke test now checks live delivery locally and in production | Polling for new messages |
+| 42 | Lighthouse & accessibility | Landing LCP 3.5 s (runtime blur of an inline SVG); several text colours under 4.5:1; a font file with unused axes | **Pre-rendered hero images**, contrast-checked tokens (`bond-text`, darker `ink-3`/ok/warn/react/danger, `on-accent`, a deeper gradient for text-bearing buttons), `<main>` landmarks, `robots.txt`; landing now 100/100/100/100 | Accepting the 88/97 scores |
+
 ---
 
 ## Open questions and risks

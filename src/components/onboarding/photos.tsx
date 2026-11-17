@@ -22,7 +22,7 @@ export function PhotosStep({ photoIds }: { photoIds: string[] }) {
       onNext={() => start(async () => { if (handle(await finishPhotos())) router.push("/onboarding/7"); })}
     >
       <div className="mb-5 flex gap-3 rounded-2xl bg-bond-soft p-4 text-sm text-ink">
-        <EyeOff className="size-5 shrink-0 text-bond" />
+        <EyeOff className="size-5 shrink-0 text-bond-text" />
         <p>
           <strong>Your photos stay blurred</strong> until you and someone finish the rounds together. They sharpen a little each round. The blurring happens on our
           server, so nobody can peek early.

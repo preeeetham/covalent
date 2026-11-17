@@ -120,7 +120,7 @@ function Round2Result({ bondId, partnerName, questions, m, t, nextRound }: { bon
         <div className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-soft)]">
           <p className="text-xs font-bold uppercase tracking-wider text-ink-3">You asked</p>
           <p className="mt-1 font-display text-lg leading-snug text-ink-2">{askedByMe?.text}</p>
-          <p className="mt-3 text-xs font-bold uppercase tracking-wider text-bond">{partnerName}</p>
+          <p className="mt-3 text-xs font-bold uppercase tracking-wider text-bond-text">{partnerName}</p>
           <p className="mt-1 font-display text-xl leading-snug text-ink">{t.answer}</p>
           <div className="mt-4 border-t border-line pt-4">
             <p className="mb-2 text-sm font-medium text-ink-2">React to their answer</p>

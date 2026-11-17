@@ -96,7 +96,7 @@ export function BatchView({
 
       {slotsFull && pendingItems.length > 0 && (
         <div className="mb-4 rounded-2xl border border-line bg-surface p-4 text-sm text-ink-2">
-          All your bond slots are full. <Link href="/bonds" className="font-semibold text-bond underline-offset-2 hover:underline">Finish or dissolve one</Link> to start a new reaction.
+          All your bond slots are full. <Link href="/bonds" className="font-semibold text-bond-text underline-offset-2 hover:underline">Finish or dissolve one</Link> to start a new reaction.
         </div>
       )}
 
@@ -117,7 +117,7 @@ export function BatchView({
                 <PersonHeader person={item.person} />
                 {item.why_text && (
                   <div className="relative rounded-2xl bg-bond-soft p-4">
-                    <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-bond">
+                    <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-bond-text">
                       <Sparkles className="size-3.5" /> Why you two
                     </p>
                     <p className="text-[15px] leading-relaxed text-ink">{item.why_text}</p>
@@ -148,7 +148,7 @@ export function BatchView({
           >
             {catalysts > 0 && (
               <Button variant="secondary" size="sm" className="mt-5" onClick={extraPick} loading={pending}>
-                <Zap className="size-4 text-bond" /> Use a catalyst for one more pick
+                <Zap className="size-4 text-bond-text" /> Use a catalyst for one more pick
               </Button>
             )}
           </EmptyState>
@@ -183,7 +183,7 @@ function EmptyState({ title, body, nextReset, children }: { title: string; body:
         <Countdown to={nextReset} />
       </p>
       {children}
-      <Link href="/bonds" className="mt-6 text-sm font-semibold text-bond underline-offset-4 hover:underline">
+      <Link href="/bonds" className="mt-6 text-sm font-semibold text-bond-text underline-offset-4 hover:underline">
         Check your bonds →
       </Link>
     </div>

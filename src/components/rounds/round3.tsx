@@ -20,7 +20,7 @@ function YesNo({ value, onChange, label }: { value: boolean | undefined; onChang
           role="radio"
           aria-checked={value === v}
           onClick={() => onChange(v)}
-          className={cn("min-h-[44px] rounded-full border text-sm font-semibold transition-colors", value === v ? (v ? "border-transparent bg-ok text-white" : "border-transparent bg-ink text-paper") : "border-line bg-surface text-ink-2")}
+          className={cn("min-h-[44px] rounded-full border text-sm font-semibold transition-colors", value === v ? (v ? "border-transparent bg-ok text-on-accent" : "border-transparent bg-ink text-paper") : "border-line bg-surface text-ink-2")}
         >
           {v ? "Agree" : "Disagree"}
         </button>
@@ -89,7 +89,7 @@ export function Round3({ bondId, partnerName, view, mine, theirs, nextRound, sta
             <p className="font-display text-xl leading-snug text-ink">{s.text}</p>
             <p className="mb-1.5 mt-3 text-xs font-bold uppercase tracking-wider text-ink-3">You</p>
             <YesNo label={`You: ${s.text}`} value={self[i]} onChange={(v) => setSelf((xs) => xs.map((x, j) => (j === i ? v : x)))} />
-            <p className="mb-1.5 mt-3 text-xs font-bold uppercase tracking-wider text-bond">Your guess for {partnerName}</p>
+            <p className="mb-1.5 mt-3 text-xs font-bold uppercase tracking-wider text-bond-text">Your guess for {partnerName}</p>
             <YesNo label={`Guess for ${partnerName}: ${s.text}`} value={guess[i]} onChange={(v) => setGuess((xs) => xs.map((x, j) => (j === i ? v : x)))} />
           </li>
         ))}

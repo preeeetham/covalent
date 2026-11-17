@@ -30,7 +30,7 @@ export function LoginForm({ next }: { next?: string }) {
       </Button>
       <p className="pt-2 text-center text-sm text-ink-2">
         New here?{" "}
-        <Link href="/signup" className="font-semibold text-bond underline-offset-2 hover:underline">
+        <Link href="/signup" className="font-semibold text-bond-text underline-offset-2 hover:underline">
           Create an account
         </Link>
       </p>

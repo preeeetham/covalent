@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { browserClient } from "@/lib/supabase/client";
+import { realtimeClient } from "@/lib/supabase/client";
 import { tickBond } from "@/app/actions/bonds";
 
 /**
@@ -14,14 +14,20 @@ export function BondLive({ bondId, personaDueAt }: { bondId: string; personaDueA
   const router = useRouter();
 
   useEffect(() => {
-    const sb = browserClient();
-    const ch = sb
-      .channel(`bond:${bondId}`)
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "bonds", filter: `id=eq.${bondId}` }, () => router.refresh())
-      .on("postgres_changes", { event: "*", schema: "public", table: "date_plans", filter: `bond_id=eq.${bondId}` }, () => router.refresh())
-      .subscribe();
+    let cancelled = false;
+    let cleanup = () => {};
+    realtimeClient().then((sb) => {
+      if (cancelled) return;
+      const ch = sb
+        .channel(`bond:${bondId}`)
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "bonds", filter: `id=eq.${bondId}` }, () => router.refresh())
+        .on("postgres_changes", { event: "*", schema: "public", table: "date_plans", filter: `bond_id=eq.${bondId}` }, () => router.refresh())
+        .subscribe();
+      cleanup = () => sb.removeChannel(ch);
+    });
     return () => {
-      sb.removeChannel(ch);
+      cancelled = true;
+      cleanup();
     };
   }, [bondId, router]);
 

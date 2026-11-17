@@ -30,7 +30,7 @@ export function DemoControls() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="relative flex min-h-[52px] min-w-[48px] flex-col items-center justify-center gap-0.5 rounded-2xl px-2 text-[11px] font-semibold text-bond"
+        className="relative flex min-h-[52px] min-w-[48px] flex-col items-center justify-center gap-0.5 rounded-2xl px-2 text-[11px] font-semibold text-bond-text"
         aria-label="Demo controls"
       >
         <FlaskConical className="size-[22px]" strokeWidth={2} />

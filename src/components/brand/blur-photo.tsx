@@ -32,6 +32,7 @@ export function BlurPhoto({
           alt={blurred ? `${alt}, blurred until you finish the rounds` : alt}
           className={cn("absolute inset-0 size-full object-cover", blurred && "scale-110")}
           loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
           draggable={false}
         />

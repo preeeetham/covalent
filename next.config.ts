@@ -4,6 +4,9 @@ import type { NextConfig } from "next";
 // auth cookie, so there is little static shell to prerender. See docs/DECISIONS.md (#26).
 const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
+  // Dev only: lets a second browser session run on 127.0.0.1 (separate cookies from localhost)
+  // so two accounts can be tested side by side, e.g. realtime chat between evaluators.
+  allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingIncludes: {
     "/api/card": ["./src/assets/fonts/*.woff"],
     "/opengraph-image": ["./src/assets/fonts/*.woff"],

@@ -74,7 +74,7 @@ Checks:
 
 ```bash
 npm test             # unit tests
-npm run smoke        # end-to-end loop + RLS checks against the local database
+npm run smoke        # end-to-end loop, realtime and RLS checks against the local database
 npm run typecheck && npm run lint
 ```
 
@@ -83,7 +83,11 @@ npm run typecheck && npm run lint
 1. Create a Supabase project. Push the schema: `npx supabase db push --db-url "<connection string>"`.
 2. Seed it: `DOTENV_CONFIG_PATH=.env.production.local npm run db:seed` (an env file pointing at the hosted project).
 3. Import the repo in Vercel and set the env vars from `.env.example` (`NEXT_PUBLIC_SITE_URL` = the Vercel URL).
-4. Supabase pauses free projects after a week of inactivity — open the dashboard and restore it before an evaluation.
+4. Set `CRON_SECRET` in Vercel. `vercel.json` schedules a daily keep-alive (`/api/cron/keepalive`) so the free Supabase project doesn't pause from inactivity.
+
+## Quality checks
+
+Lighthouse (mobile, Nov 2026): landing page **100 / 100 / 100 / 100** (performance / accessibility / best practices / SEO); signed-in screens score 86–100 for performance and **100** for accessibility. Text colours are checked against WCAG AA (4.5:1) in both light and dark themes.
 
 ## Third-party disclosure
 
@@ -93,6 +97,7 @@ Built from scratch for this assignment; no app template was used. Libraries and 
 - Demo avatars: [DiceBear](https://www.dicebear.com) **Notionists** style (CC0 1.0), generated at seed time. No photos of real people are used for fictional profiles.
 - Fonts: Fraunces, Plus Jakarta Sans, JetBrains Mono (SIL Open Font License) via Google Fonts / `@fontsource/fraunces`.
 - Optional AI: Google Gemini API (free tier) for copy garnish, always with hand-written fallbacks.
+- Smooth wheel scrolling: [Lenis](https://lenis.darkroom.engineering) (MIT).
 - Development used AI coding assistance (Claude Code). Product decisions, research and trade-offs are documented in `docs/DECISIONS.md`.
 
 ## Known limitations

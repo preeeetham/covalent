@@ -22,21 +22,25 @@
   --surface-2: #f4eee6;
   --ink: #1c1524;
   --ink-2: #5e5568;
-  --ink-3: #8b8193;
+  --ink-3: #6b6276;
   --line: #e9e1d6;
   --acid: #ff5a4f;
-  --react: #e0409a;
+  --react: #b81a73;
+  --on-accent: #ffffff; /* text on solid accent fills (ok, react, bond) */
   --bond: #7c4dff;
+  --bond-text: #5b2fd6; /* bond colour for small text: ≥4.5:1 on paper and bond-soft */
   --base: #3b6bff;
-  --ok: #1f9d6b;
-  --warn: #b87500;
-  --danger: #d4352c;
+  --ok: #137a4f;
+  --warn: #8a5800;
+  --danger: #b42318;
   --bond-soft: #efe9ff;
   --acid-soft: #ffece9;
   --ok-soft: #e4f5ee;
   --shadow-tint: 60 30 80;
   --grain-opacity: 0.028;
   --litmus: linear-gradient(100deg, #ff5a4f 0%, #e0409a 35%, #7c4dff 68%, #3b6bff 100%);
+  /* Deeper litmus for fills that carry white text: every stop is ≥4.5:1 against white. */
+  --litmus-strong: linear-gradient(100deg, #d93a2f 0%, #c7287f 35%, #6a3af0 68%, #2f5de0 100%);
   color-scheme: light;
 }
 
@@ -47,7 +51,12 @@
     --surface-2: #251e30;
     --ink: #f5eff8;
     --ink-2: #b4aac0;
-    --ink-3: #8a7f98;
+    --ink-3: #a59bb3;
+    --ok: #3cc48f;
+    --warn: #e0a030;
+    --danger: #ff7a70;
+    --react: #f25aa8;
+    --on-accent: #120e18;
     --line: #322a3f;
     --bond-soft: #2a2140;
     --acid-soft: #3a1f22;
@@ -55,6 +64,7 @@
     --shadow-tint: 0 0 0;
     --grain-opacity: 0.05;
     --bond: #9573ff;
+    --bond-text: #c4b2ff;
     color-scheme: dark;
   }
 }
@@ -64,7 +74,12 @@
   --surface-2: #251e30;
   --ink: #f5eff8;
   --ink-2: #b4aac0;
-  --ink-3: #8a7f98;
+  --ink-3: #a59bb3;
+  --ok: #3cc48f;
+  --warn: #e0a030;
+  --danger: #ff7a70;
+  --react: #f25aa8;
+  --on-accent: #120e18;
   --line: #322a3f;
   --bond-soft: #2a2140;
   --acid-soft: #3a1f22;
@@ -72,6 +87,7 @@
   --shadow-tint: 0 0 0;
   --grain-opacity: 0.05;
   --bond: #9573ff;
+  --bond-text: #c4b2ff;
   color-scheme: dark;
 }
 
@@ -85,7 +101,9 @@
   --color-line: var(--line);
   --color-acid: var(--acid);
   --color-react: var(--react);
+  --color-on-accent: var(--on-accent);
   --color-bond: var(--bond);
+  --color-bond-text: var(--bond-text);
   --color-base: var(--base);
   --color-ok: var(--ok);
   --color-warn: var(--warn);
@@ -141,6 +159,7 @@ body::before {
 }
 
 .bg-litmus { background-image: var(--litmus); }
+.bg-litmus-strong { background-image: var(--litmus-strong); }
 .text-litmus {
   background-image: var(--litmus);
   -webkit-background-clip: text;

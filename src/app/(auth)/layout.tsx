@@ -17,12 +17,12 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
         </div>
         <p className="text-xs text-ink-3">Verified by eLitmus · No swiping, ever.</p>
       </div>
-      <div className="mx-auto flex w-full max-w-[420px] flex-col justify-center py-10">
+      <main className="mx-auto flex w-full max-w-[420px] flex-col justify-center py-10">
         <Link href="/" className="mb-8 lg:hidden">
           <Logo />
         </Link>
         {children}
-      </div>
+      </main>
     </div>
   );
 }

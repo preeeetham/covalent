@@ -34,7 +34,7 @@ export function TabBar({ yourMove, extra }: { yourMove: number; extra?: React.Re
               <Icon className="relative size-[22px]" strokeWidth={active ? 2.3 : 1.9} aria-hidden />
               <span className="relative">{t.label}</span>
               {t.href === "/bonds" && yourMove > 0 && (
-                <span className="absolute right-2.5 top-1.5 grid min-w-[18px] place-items-center rounded-full bg-react px-1 text-[10px] font-bold leading-[18px] text-white" aria-label={`${yourMove} waiting on you`}>
+                <span className="absolute right-2.5 top-1.5 grid min-w-[18px] place-items-center rounded-full bg-react px-1 text-[10px] font-bold leading-[18px] text-on-accent" aria-label={`${yourMove} waiting on you`}>
                   {yourMove}
                 </span>
               )}

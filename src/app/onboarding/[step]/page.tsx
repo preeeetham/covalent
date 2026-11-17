@@ -46,7 +46,7 @@ export default async function OnboardingStep(props: PageProps<"/onboarding/[step
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col px-5 pb-10 pt-[max(1rem,env(safe-area-inset-top))]">
+    <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col px-5 pb-10 pt-[max(1rem,env(safe-area-inset-top))]">
       <div className="mb-6 flex items-center justify-between">
         <Logo className="scale-90" />
         <span className="font-mono text-xs text-ink-3">
@@ -59,6 +59,6 @@ export default async function OnboardingStep(props: PageProps<"/onboarding/[step
         </div>
       )}
       <div className="flex flex-1 flex-col">{body}</div>
-    </div>
+    </main>
   );
 }

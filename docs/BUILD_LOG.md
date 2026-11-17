@@ -24,3 +24,11 @@ What actually happened in each work session. Use this to fill the "journey" ques
 - Wired Gemini (`gemini-3.5-flash-lite`, checked live; older models are retired) into match explanations, round quips and persona chat, keeping hand-written fallbacks.
 - Applied the schema to hosted Supabase, seeded it, and ran the end-to-end smoke test (full loop + RLS) against the hosted database: passed.
 - Created the public GitHub repo, linked Vercel, set production env vars, deployed to https://covalent-nine.vercel.app and checked public, protected and API routes over HTTP.
+
+## 2026-11-17 — Submission polish
+
+- Demo avatars now match each person's gender (hair/beard chosen per gender); production re-seeded.
+- Daily keep-alive cron so the free Supabase project never pauses before review.
+- Realtime tested with two accounts: messages arrive live in ~0.1–0.5 s. Hardened the subscription and closed the "stream attaching" gap; the smoke test now checks realtime in local and production.
+- Found and fixed a silent seed bug: evaluator chat histories were never inserted.
+- Lighthouse (mobile): landing 100/100/100/100 (was 88 perf, 97 a11y); signed-in pages 86–100 performance, 100 accessibility. Dark mode reviewed on every main screen.

@@ -43,7 +43,7 @@ export function Round1({ bondId, partnerName, view, mine, theirs, nextRound, pai
                 <FlipIn i={i}>
                   <div className={cn("grid grid-cols-[1fr_auto_1fr] items-center gap-x-3 rounded-2xl border p-3 text-sm", match ? "border-bond/40 bg-bond-soft" : "border-line bg-surface")}>
                     <span className="font-medium text-ink">{label(a[i])}</span>
-                    <span className={cn("font-mono text-xs", match ? "text-bond" : "text-ink-3")}>{match ? "=" : "≠"}</span>
+                    <span className={cn("font-mono text-xs", match ? "text-bond-text" : "text-ink-3")}>{match ? "=" : "≠"}</span>
                     <span className="text-right font-medium text-ink">{label(b[i])}</span>
                   </div>
                 </FlipIn>

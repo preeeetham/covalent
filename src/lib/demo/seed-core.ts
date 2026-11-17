@@ -4,8 +4,7 @@
  */
 import { randomUUID, randomBytes } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { createAvatar } from "@dicebear/core";
-import { notionists } from "@dicebear/collection";
+import { avatarSvg } from "./avatar";
 import type { Database, Json } from "@/lib/supabase/database.types";
 import { PERSONAS, type Persona } from "@/content/personas";
 import { EVALUATORS } from "@/content/evaluators";
@@ -23,6 +22,12 @@ import { personaQuiz, personaR1, personaR2Ask, personaR3, personaR4 } from "./pe
 import { clamp } from "@/lib/utils";
 
 type DB = SupabaseClient<Database>;
+
+/** Fail loudly: a silent seed failure leaves evaluators with half-built scenarios. */
+function must<T extends { error: { message: string } | null }>(res: T): T {
+  if (res.error) throw new Error(`Seed insert failed: ${res.error.message}`);
+  return res;
+}
 const DAY = 86_400_000;
 
 const dobFor = (age: number) => {
@@ -33,12 +38,7 @@ const dobFor = (age: number) => {
 };
 
 function avatarPng(p: Persona) {
-  const svg = createAvatar(notionists, {
-    seed: p.key,
-    backgroundColor: [p.bg],
-    size: 512,
-  }).toString();
-  return Buffer.from(svg);
+  return Buffer.from(avatarSvg(p.key, p.gender, p.bg).toString());
 }
 
 function asMatchInput(id: string, p: Persona): MatchInput {
@@ -119,8 +119,14 @@ export async function seedPerson(
   await db.from("user_prompts").delete().eq("user_id", id);
   await db.from("user_prompts").insert(p.prompts.map(([prompt_id, answer], i) => ({ user_id: id, prompt_id, answer, position: i })));
 
-  const { count } = await db.from("photos").select("*", { count: "exact", head: true }).eq("user_id", id);
-  if (!count) await storeVariants(db, id, avatarPng(p), 0);
+  // Demo and evaluator accounts always get a freshly rendered avatar, so avatar changes
+  // reach existing data on re-seed. (Real users' uploads are never touched.)
+  const { data: old } = await db.from("photos").select("id, path_original, path_blur").eq("user_id", id);
+  if (old?.length) {
+    await db.storage.from("photos").remove(old.flatMap((o) => [o.path_original, ...o.path_blur]));
+    await db.from("photos").delete().in("id", old.map((o) => o.id));
+  }
+  await storeVariants(db, id, avatarPng(p), 0);
   return id;
 }
 
@@ -225,9 +231,9 @@ export async function buildBond(db: DB, o: BuildBond) {
   const step = (Date.now() - started) / (o.roundsDone + (o.chat?.length ?? 0) + 2);
   let t = started + step;
   if (responses.length)
-    await db.from("round_responses").insert(
+    must(await db.from("round_responses").insert(
       responses.map((r) => ({ bond_id: id, round: r.round, user_id: r.user_id, payload: r.payload as NonNullable<Json>, submitted_at: new Date(t).toISOString() })),
-    );
+    ));
 
   const msgs: Database["public"]["Tables"]["messages"]["Insert"][] = [];
   const chat = [...(o.chat ?? [])];
@@ -236,15 +242,15 @@ export async function buildBond(db: DB, o: BuildBond) {
     // Interleave chat after round 1 (chat opens then).
     const take = r === o.roundsDone ? chat.length : Math.ceil(chat.length / (o.roundsDone - r + 1));
     for (const [who, body] of chat.splice(0, take))
-      msgs.push({ bond_id: id, sender_id: who === "a" ? o.a.id : o.b.id, body, created_at: new Date((t += step / 3)).toISOString() });
+      msgs.push({ bond_id: id, sender_id: who === "a" ? o.a.id : o.b.id, kind: "text", body, created_at: new Date((t += step / 3)).toISOString() });
   }
   if (o.revealed) msgs.push({ bond_id: id, sender_id: o.a.id, kind: "system", body: "Revealed · You've seen each other now. Plan something real.", created_at: new Date((t += step / 3)).toISOString() });
-  if (msgs.length) await db.from("messages").insert(msgs);
+  if (msgs.length) must(await db.from("messages").insert(msgs));
 
   const events: Database["public"]["Tables"]["events"]["Insert"][] = [{ user_id: o.a.id, name: "reaction_started", props: { bond: id, seeded: true } }];
   for (let r = 1; r <= o.roundsDone; r++) for (const u of [o.a.id, o.b.id]) events.push({ user_id: u, name: "round_completed", props: { bond: id, round: r, seeded: true } });
   if (o.revealed) for (const u of [o.a.id, o.b.id]) events.push({ user_id: u, name: "revealed", props: { bond: id, seeded: true } });
-  await db.from("events").insert(events);
+  must(await db.from("events").insert(events));
   return id;
 }
 

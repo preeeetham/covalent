@@ -71,7 +71,7 @@ export function PhotoGrid({ photoIds, onChange, max = 4 }: { photoIds: string[];
         <button
           onClick={() => input.current?.click()}
           disabled={uploading}
-          className="flex aspect-[4/5] flex-col items-center justify-center gap-2 rounded-[22px] border-2 border-dashed border-line text-ink-2 hover:border-bond hover:text-bond"
+          className="flex aspect-[4/5] flex-col items-center justify-center gap-2 rounded-[22px] border-2 border-dashed border-line text-ink-2 hover:border-bond hover:text-bond-text"
         >
           {uploading ? <Loader2 className="size-6 animate-spin" /> : <ImagePlus className="size-6" />}
           <span className="text-sm font-semibold">{uploading ? "Blurring…" : "Add photo"}</span>

@@ -8,11 +8,11 @@ import { ProgressRing } from "@/components/brand/litmus";
  * Scroll-driven blur → sharp: the product's core mechanic, demonstrated before signup.
  *
  * Performance: animating `filter: blur()` per scroll frame is expensive and lags the
- * compositor, which reads as jitter. Instead a pre-blurred layer (blurred once, cached
- * on its own GPU layer) sits under the sharp image, and scroll only drives the sharp
- * layer's opacity — a compositor-only property.
+ * compositor, which reads as jitter. Instead a pre-blurred image (rendered at build time by
+ * scripts/hero-images.ts) sits under the sharp one, and scroll only drives the sharp
+ * layer's opacity — a compositor-only property. No runtime blur, so the LCP paint is cheap.
  */
-export function HeroReveal({ avatar }: { avatar: string }) {
+export function HeroReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.75", "end 0.2"] });
@@ -28,9 +28,12 @@ export function HeroReveal({ avatar }: { avatar: string }) {
       <div className="overflow-hidden rounded-[36px] border border-line bg-surface shadow-[var(--shadow-lift)]">
         <div className="relative aspect-[4/5] overflow-hidden bg-[#ffd5c2]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={avatar} alt="" aria-hidden className="absolute inset-0 size-full scale-110 object-cover blur-[22px] [transform:translateZ(0)]" />
+          <img src="/landing/hero-blur.webp" alt="" aria-hidden width={190} height={238} fetchPriority="high" decoding="async" className="absolute inset-0 size-full object-cover" />
           <motion.img
-            src={avatar}
+            src="/landing/hero.webp"
+            width={760}
+            height={950}
+            decoding="async"
             alt="An illustrated person, coming into focus"
             style={{ opacity: sharp, willChange: "opacity" }}
             className="absolute inset-0 size-full object-cover"
@@ -47,7 +50,7 @@ export function HeroReveal({ avatar }: { avatar: string }) {
           </div>
         </div>
         <div className="mx-5 mb-5 rounded-2xl bg-bond-soft p-4 text-sm text-ink">
-          <span className="font-bold text-bond">Why you two · </span>You'd both take the job in another city, and you both save before you spend.
+          <span className="font-bold text-bond-text">Why you two · </span>You'd both take the job in another city, and you both save before you spend.
         </div>
       </div>
       <p className="mt-3 text-center text-xs text-ink-3">Scroll to play a round. (Illustrated demo profile.)</p>

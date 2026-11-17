@@ -34,7 +34,7 @@ export function Round4({ bondId, partnerName, view, mine, theirs, ideas }: Round
             return (
               <li key={d.id}>
                 <FlipIn i={i}>
-                  <div className={cn("flex items-center gap-3 rounded-2xl border p-4", me && them ? "border-transparent bg-litmus text-white" : "border-line bg-surface text-ink")}>
+                  <div className={cn("flex items-center gap-3 rounded-2xl border p-4", me && them ? "border-transparent bg-litmus-strong text-white" : "border-line bg-surface text-ink")}>
                     <span className="text-2xl">{d.emoji}</span>
                     <div className="flex-1">
                       <p className="font-semibold">{d.title}</p>
@@ -53,7 +53,7 @@ export function Round4({ bondId, partnerName, view, mine, theirs, ideas }: Round
             <>You said {SLOTS.find((s) => s.id === m.slot)?.label.toLowerCase()}, {partnerName} said {SLOTS.find((s) => s.id === t.slot)?.label.toLowerCase()}.</>
           )}
         </p>
-        <Link href={`/bonds/${bondId}`} className="mt-8 flex min-h-[56px] items-center justify-center rounded-full bg-litmus font-semibold text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]">
+        <Link href={`/bonds/${bondId}`} className="mt-8 flex min-h-[56px] items-center justify-center rounded-full bg-litmus-strong font-semibold text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]">
           Go to the reveal
         </Link>
       </div>

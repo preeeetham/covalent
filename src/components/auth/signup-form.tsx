@@ -63,7 +63,7 @@ export function SignupForm() {
         </Consent>
         <Consent name="firewall" required>
           <span className="flex items-start gap-1.5">
-            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-bond" />
+            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-bond-text" />
             <span>
               I understand <strong className="text-ink">my Covalent data is never shared with eLitmus recruiters or employers</strong>. Only my verification status is used.
             </span>
@@ -82,7 +82,7 @@ export function SignupForm() {
       </Button>
       <p className="pt-2 text-center text-sm text-ink-2">
         Already in?{" "}
-        <Link href="/login" className="font-semibold text-bond underline-offset-2 hover:underline">
+        <Link href="/login" className="font-semibold text-bond-text underline-offset-2 hover:underline">
           Log in
         </Link>
       </p>

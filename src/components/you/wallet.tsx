@@ -44,7 +44,7 @@ export function Wallet({ catalysts, extraSlotUntil, extendable }: { catalysts: n
         <div>
           <p className="text-xs font-bold uppercase tracking-wider text-ink-3">Catalysts</p>
           <p className="mt-1 flex items-center gap-2 font-display text-3xl text-ink">
-            <Zap className="size-6 text-bond" /> {catalysts}
+            <Zap className="size-6 text-bond-text" /> {catalysts}
           </p>
         </div>
         <Button size="sm" variant="ink" onClick={() => setBuy(true)}>
@@ -72,7 +72,7 @@ export function Wallet({ catalysts, extraSlotUntil, extendable }: { catalysts: n
             <p className="mt-3 font-semibold text-ink">₹39</p>
           </button>
           <button onClick={() => purchase(3)} disabled={pending} className="relative rounded-[22px] border-2 border-bond p-4 text-left hover:bg-bond-soft">
-            <span className="absolute -top-2.5 right-3 rounded-full bg-bond px-2 py-0.5 text-[10px] font-bold text-white">BEST VALUE</span>
+            <span className="absolute -top-2.5 right-3 rounded-full bg-bond px-2 py-0.5 text-[10px] font-bold text-on-accent">BEST VALUE</span>
             <p className="font-display text-3xl text-ink">3</p>
             <p className="text-sm text-ink-2">catalysts</p>
             <p className="mt-3 font-semibold text-ink">₹99</p>

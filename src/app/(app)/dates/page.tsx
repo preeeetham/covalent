@@ -38,7 +38,7 @@ export default async function DatesPage() {
 
       {needsFeedback.map((r) => (
         <section key={r.plan.id} className="mb-6 rounded-[24px] border-2 border-bond/30 bg-surface p-5 shadow-[var(--shadow-soft)]">
-          <p className="text-xs font-bold uppercase tracking-wider text-bond">How did it go?</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-bond-text">How did it go?</p>
           <p className="mt-1 font-display text-2xl text-ink">You and {r.partner.first_name} at {r.venue?.name}</p>
           <p className="text-sm text-ink-2">{formatIST(r.plan.starts_at)}</p>
           <FeedbackForm planId={r.plan.id} partnerName={r.partner.first_name} />
@@ -61,7 +61,7 @@ export default async function DatesPage() {
 
       {rows.length === 0 && (
         <div className="mt-6 flex flex-col items-center rounded-[28px] border border-line bg-surface px-6 py-12 text-center shadow-[var(--shadow-soft)]">
-          <CalendarHeart className="mb-3 size-8 text-bond" />
+          <CalendarHeart className="mb-3 size-8 text-bond-text" />
           <p className="font-display text-3xl text-ink">No dates yet.</p>
           <p className="mt-2 max-w-[30ch] text-ink-2">Finish the four rounds with someone, reveal, and plan something real. That's the whole point.</p>
           <Link href="/bonds" className="mt-5 inline-flex min-h-[44px] items-center rounded-full bg-ink px-5 font-semibold text-paper">

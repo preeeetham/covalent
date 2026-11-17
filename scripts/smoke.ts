@@ -40,6 +40,13 @@ async function main() {
     const viewer = async () => (await db.from("profiles").select("*").eq("id", id).single()).data!;
     step("created onboarded test user");
 
+    // Seeded evaluator scenarios must include their chat history.
+    const { data: naina } = await db.from("profiles").select("id").eq("email", "naina@covalent.test").single();
+    const { data: nBonds } = await db.from("bonds").select("id").or(`user_a.eq.${naina!.id},user_b.eq.${naina!.id}`).eq("status", "revealed");
+    const { count: seededMsgs } = await db.from("messages").select("*", { count: "exact", head: true }).eq("bond_id", nBonds![0].id).eq("kind", "text");
+    assert.ok((seededMsgs ?? 0) >= 8, `seeded Naina–Arjun chat has ${seededMsgs} messages`);
+    step(`seeded evaluator chat history present (${seededMsgs} messages)`);
+
     // ---- batch
     const batch = await getTodayBatch(await viewer());
     assert.equal(batch.kind, "batch");
@@ -114,6 +121,36 @@ async function main() {
     const reply = await chat.personaReply(await viewer(), bondId);
     assert.ok(reply?.body);
     step(`chat: persona replied "${reply!.body.slice(0, 50)}…"`);
+
+    // ---- realtime: a signed-in browser-style client receives new chat messages live
+    {
+      const { createClient: rtCreate } = await import("@supabase/supabase-js");
+      const rt = rtCreate(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } });
+      const { data: sess, error: e } = await rt.auth.signInWithPassword({ email, password });
+      assert.ifError(e);
+      await rt.realtime.setAuth(sess.session!.access_token);
+      const got: string[] = [];
+      let pgReady = false;
+      const status = await new Promise<string>((resolve) => {
+        rt.channel(`smoke:${bondId}`)
+          .on("system", {}, (p: { extension?: string; status?: string }) => {
+            if (p.extension === "postgres_changes" && p.status === "ok") pgReady = true;
+          })
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `bond_id=eq.${bondId}` }, (p) => got.push((p.new as { body: string }).body))
+          .subscribe((st) => (st === "SUBSCRIBED" || st === "CHANNEL_ERROR" || st === "TIMED_OUT") && resolve(st));
+      });
+      assert.equal(status, "SUBSCRIBED");
+      // Wait for Supabase's "Subscribed to PostgreSQL" ack, then a short settle (hosted needs longer than local).
+      for (let i = 0; i < 100 && !pgReady; i++) await new Promise((r) => setTimeout(r, 100));
+      assert.ok(pgReady, "postgres_changes stream attached");
+      await new Promise((r) => setTimeout(r, 3000));
+      const t = Date.now();
+      await db.from("messages").insert({ bond_id: bondId, sender_id: item.person.id, body: "realtime ping" });
+      for (let i = 0; i < 100 && !got.includes("realtime ping"); i++) await new Promise((r) => setTimeout(r, 100));
+      assert.ok(got.includes("realtime ping"), `message delivered over realtime (received: ${JSON.stringify(got)})`);
+      step(`realtime: new message delivered live in ${Date.now() - t} ms`);
+      await rt.removeAllChannels();
+    }
 
     // ---- date
     const venues = await dates.venuesFor("Bengaluru");

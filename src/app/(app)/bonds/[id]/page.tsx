@@ -99,16 +99,16 @@ export default async function BondPage(props: PageProps<"/bonds/[id]">) {
                   <div
                     className={cn(
                       "flex items-center gap-4 rounded-2xl border p-4",
-                      view.state === "play" ? "border-transparent bg-litmus text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]" : "border-line bg-surface",
-                      view.state === "locked" && "opacity-60",
+                      view.state === "play" ? "border-transparent bg-litmus-strong text-white shadow-[0_10px_30px_-12px_rgb(124_77_255/0.7)]" : "border-line bg-surface",
+                      
                     )}
                   >
                     <span className={cn("grid size-9 shrink-0 place-items-center rounded-full", view.state === "play" ? "bg-white/20" : view.state === "done" ? "bg-ok-soft text-ok" : "bg-surface-2 text-ink-2")}>{icon}</span>
                     <div className="min-w-0 flex-1">
-                      <p className={cn("font-semibold", view.state === "play" ? "text-white" : "text-ink")}>
-                        <span className="font-mono text-xs opacity-70">0{n}</span> {meta.name}
+                      <p className={cn("font-semibold", view.state === "play" ? "text-white" : view.state === "locked" ? "text-ink-2" : "text-ink")}>
+                        <span className="font-mono text-xs">0{n}</span> {meta.name}
                       </p>
-                      <p className={cn("text-sm", view.state === "play" ? "text-white/85" : "text-ink-2")}>{sub}</p>
+                      <p className={cn("text-sm", view.state === "play" ? "text-white" : view.state === "locked" ? "text-ink-3" : "text-ink-2")}>{sub}</p>
                     </div>
                   </div>
                 );
@@ -136,7 +136,7 @@ export default async function BondPage(props: PageProps<"/bonds/[id]">) {
 
         {bond.why_text && bond.status !== "revealed" && (
           <div className="mt-6 rounded-2xl bg-bond-soft p-4">
-            <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-bond">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-bond-text">
               <Sparkles className="size-3.5" /> Why you two
             </p>
             <p className="text-[15px] leading-relaxed text-ink">{bond.why_text}</p>

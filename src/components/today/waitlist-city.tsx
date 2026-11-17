@@ -5,7 +5,7 @@ import { LIVE_CITIES } from "@/content/cities";
 export function WaitlistCity({ city }: { city: string | null }) {
   return (
     <div className="rounded-[28px] border border-line bg-surface p-6 shadow-[var(--shadow-soft)]">
-      <MapPin className="mb-3 size-6 text-bond" />
+      <MapPin className="mb-3 size-6 text-bond-text" />
       <h2 className="font-display text-3xl leading-tight text-ink">{city === "Other" || !city ? "Your city" : city} isn't live yet.</h2>
       <p className="mt-3 text-ink-2">
         We launch one city at a time so there are enough people for good batches. Covalent is live in{" "}

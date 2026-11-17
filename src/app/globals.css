@@ -35,7 +35,7 @@
   --acid-soft: #ffece9;
   --ok-soft: #e4f5ee;
   --shadow-tint: 60 30 80;
-  --grain-opacity: 0.035;
+  --grain-opacity: 0.028;
   --litmus: linear-gradient(100deg, #ff5a4f 0%, #e0409a 35%, #7c4dff 68%, #3b6bff 100%);
   color-scheme: light;
 }
@@ -101,6 +101,13 @@
   --shadow-lift: 0 2px 4px rgb(var(--shadow-tint) / 0.06), 0 18px 40px -12px rgb(var(--shadow-tint) / 0.22);
 }
 
+/* Lenis smooth scrolling (from lenis/dist/lenis.css). */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
 html {
   background: var(--paper);
   -webkit-tap-highlight-color: transparent;
@@ -113,7 +120,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Paper grain: an inline SVG noise at very low opacity. */
+/* Paper grain: a static noise tile on its own GPU layer, so scrolling never repaints it. */
 body::before {
   content: "";
   position: fixed;
@@ -121,7 +128,10 @@ body::before {
   pointer-events: none;
   z-index: 0;
   opacity: var(--grain-opacity);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("/noise.png");
+  background-size: 128px 128px;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .font-display {
@@ -150,8 +160,8 @@ body::before {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.orbit { animation: orbit 14s linear infinite; transform-origin: center; transform-box: fill-box; }
-.orbit-slow { animation: orbit 22s linear infinite reverse; transform-origin: center; transform-box: fill-box; }
+.orbit { animation: orbit 14s linear infinite; transform-origin: center; }
+.orbit-slow { animation: orbit 22s linear infinite reverse; transform-origin: center; }
 
 @keyframes shimmer {
   0% { background-position: -400px 0; }

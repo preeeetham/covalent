@@ -19,7 +19,7 @@ export function TabBar({ yourMove, extra }: { yourMove: number; extra?: React.Re
   if (/^\/bonds\/[^/]+\/(round|reveal)/.test(path)) return null;
   return (
     <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-[440px] px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-      <div className="flex items-center justify-around rounded-[26px] border border-line bg-surface/90 px-2 py-1.5 shadow-[var(--shadow-lift)] backdrop-blur-xl">
+      <div className="flex items-center justify-around rounded-[26px] border border-line bg-surface px-2 py-1.5 shadow-[var(--shadow-lift)]">
         {TABS.map((t) => {
           const active = path === t.href || path.startsWith(t.href + "/");
           const Icon = t.icon;

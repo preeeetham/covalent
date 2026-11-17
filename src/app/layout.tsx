@@ -3,6 +3,7 @@ import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/toast";
 import { ServiceWorker } from "@/components/sw-register";
 import { BrandGradients } from "@/components/brand/gradients";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="relative z-10 min-h-full">{children}</div>
         <Toaster />
         <ServiceWorker />
+        <SmoothScroll />
       </body>
     </html>
   );

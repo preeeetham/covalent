@@ -4,24 +4,38 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ProgressRing } from "@/components/brand/litmus";
 
-/** Scroll-driven blur → sharp: the product's core mechanic, demonstrated before signup. */
+/**
+ * Scroll-driven blur → sharp: the product's core mechanic, demonstrated before signup.
+ *
+ * Performance: animating `filter: blur()` per scroll frame is expensive and lags the
+ * compositor, which reads as jitter. Instead a pre-blurred layer (blurred once, cached
+ * on its own GPU layer) sits under the sharp image, and scroll only drives the sharp
+ * layer's opacity — a compositor-only property.
+ */
 export function HeroReveal({ avatar }: { avatar: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.75", "end 0.2"] });
-  const blur = useTransform(scrollYProgress, [0, 0.85], reduce ? [0, 0] : [26, 0]);
-  const filter = useTransform(blur, (b) => `blur(${b}px)`);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
-  const rounds = useTransform(scrollYProgress, [0, 0.2, 0.4, 0.6, 0.8], [0, 1, 2, 3, 4]);
-  const label = useTransform(rounds, (r) => (r >= 4 ? "Revealed" : `${4 - Math.floor(r)} rounds to reveal`));
+  const sharp = useTransform(scrollYProgress, [0.05, 0.85], reduce ? [1, 1] : [0, 1]);
+  const label = useTransform(scrollYProgress, (p) => {
+    const r = Math.min(4, Math.floor((p / 0.85) * 4.999));
+    return r >= 4 ? "Revealed" : `${4 - r} rounds to reveal`;
+  });
 
   return (
     <div ref={ref} className="relative mx-auto w-full max-w-[380px]">
-      <div className="absolute -inset-6 -z-10 rounded-[48px] bg-litmus opacity-20 blur-3xl" aria-hidden />
+      <div className="absolute -inset-6 -z-10 rounded-[48px] bg-litmus opacity-20 blur-3xl [transform:translateZ(0)]" aria-hidden />
       <div className="overflow-hidden rounded-[36px] border border-line bg-surface shadow-[var(--shadow-lift)]">
         <div className="relative aspect-[4/5] overflow-hidden bg-[#ffd5c2]">
-          <motion.img src={avatar} alt="An illustrated person, coming into focus" style={{ filter, scale }} className="absolute inset-0 size-full object-cover" />
-          <motion.span className="absolute bottom-4 left-4 rounded-full bg-white/75 px-3 py-1 text-xs font-semibold text-[#1C1524] backdrop-blur-md">{label}</motion.span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={avatar} alt="" aria-hidden className="absolute inset-0 size-full scale-110 object-cover blur-[22px] [transform:translateZ(0)]" />
+          <motion.img
+            src={avatar}
+            alt="An illustrated person, coming into focus"
+            style={{ opacity: sharp, willChange: "opacity" }}
+            className="absolute inset-0 size-full object-cover"
+          />
+          <motion.span className="absolute bottom-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#1C1524]">{label}</motion.span>
         </div>
         <div className="flex items-center gap-4 p-5">
           <ProgressRing done={2} size={52}>

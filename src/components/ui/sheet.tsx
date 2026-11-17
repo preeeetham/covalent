@@ -37,7 +37,7 @@ export function Sheet({
       onClick={(e) => {
         if (dismissable && e.target === ref.current) onClose();
       }}
-      className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-ink/40 backdrop:backdrop-blur-[2px]"
+      className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-ink/40"
     >
       <AnimatePresence>
         {open && (

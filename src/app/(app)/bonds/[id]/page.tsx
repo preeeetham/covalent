@@ -42,7 +42,7 @@ export default async function BondPage(props: PageProps<"/bonds/[id]">) {
   return (
     <div className="pb-6">
       <BondLive bondId={id} personaDueAt={waitingOnPersona ? bond.persona_due_at ?? new Date().toISOString() : null} />
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-line/60 bg-paper/85 px-3 pb-2 pt-[max(0.5rem,env(safe-area-inset-top))] backdrop-blur-xl">
+      <header className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-line/60 bg-paper px-3 pb-2 pt-[max(0.5rem,env(safe-area-inset-top))]">
         <Link href="/bonds" className="grid size-11 place-items-center rounded-full text-ink hover:bg-surface-2" aria-label="Back to bonds">
           <ChevronLeft className="size-6" />
         </Link>

@@ -81,6 +81,13 @@ Research numbers come from industry press and vendor reports (Nov 2026 web resea
 | 34 | Matching new users | Evaluators are real accounts in the same city | Real users get a **small ranking boost** over demo personas, so new sign-ups meet evaluators and real invites happen | Showing only demo personas to new users |
 | 35 | "Why you two" copy without an LLM | Raw quiz labels read badly ("both lean a lot. they matter.") | Each quiz pole has a **hand-written natural phrase** ("family having a real say") used by the template | Only relying on the LLM |
 
+## 2026-11-17 — Scroll performance
+
+| # | What we considered | Finding | Decision | Rejected alternative |
+|---|---|---|---|---|
+| 36 | Jittery scrolling reported | Main-thread frames were fine (~8 ms); the cost was compositor work repeated every scroll frame: a scroll-linked `blur()` on the hero, frosted-glass `backdrop-filter` on the fixed tab bar and sticky headers, SVG-noise grain with `mix-blend-mode` on every photo, and SVG orbit rotations forcing repaints | Hero now **crossfades opacity** over a pre-blurred layer; headers/tab bar are **solid**; grain is a **static PNG tile on its own GPU layer**, no blend modes; orbits rotate as **HTML layers** | Keeping the effects and hoping for fast GPUs |
+| 37 | Mouse-wheel feel | Wheels on macOS/Windows scroll in ~100 px steps | **Lenis** smooths wheel input (eased, ~16 px/frame max); touch stays native; off for `prefers-reduced-motion`; dialogs and nested scroll areas keep native scrolling | Native stepped wheel scrolling; heavier scroll-jacking libraries |
+
 ---
 
 ## Open questions and risks

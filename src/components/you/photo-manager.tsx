@@ -60,7 +60,7 @@ export function PhotoGrid({ photoIds, onChange, max = 4 }: { photoIds: string[];
           <button
             onClick={() => start(async () => { if (handle(await deletePhoto(id))) onChange(); })}
             disabled={pending}
-            className="absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-black/55 text-white backdrop-blur"
+            className="absolute right-2 top-2 grid size-10 place-items-center rounded-full bg-black/60 text-white"
             aria-label="Remove photo"
           >
             <Trash2 className="size-4" />

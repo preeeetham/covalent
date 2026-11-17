@@ -4,7 +4,7 @@ import { Logo } from "@/components/brand/logo";
 export default function MarketingLayout({ children }: LayoutProps<"/">) {
   return (
     <div className="min-h-dvh">
-      <header className="sticky top-0 z-40 border-b border-line/60 bg-paper/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-line/60 bg-paper">
         <nav className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-5" aria-label="Site">
           <Link href="/" aria-label="Covalent home">
             <Logo />

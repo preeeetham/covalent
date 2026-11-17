@@ -1,0 +1,1 @@
+export { WaitingCard } from "./shared";

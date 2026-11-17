@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Covalent design system — "Warm Lab"
+   Calm warm paper base + exactly one vivid signature: the litmus gradient.
+   ------------------------------------------------------------------ */
+
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+:root {
+  --paper: #fbf7f1;
+  --surface: #ffffff;
+  --surface-2: #f4eee6;
+  --ink: #1c1524;
+  --ink-2: #5e5568;
+  --ink-3: #8b8193;
+  --line: #e9e1d6;
+  --acid: #ff5a4f;
+  --react: #e0409a;
+  --bond: #7c4dff;
+  --base: #3b6bff;
+  --ok: #1f9d6b;
+  --warn: #b87500;
+  --danger: #d4352c;
+  --bond-soft: #efe9ff;
+  --acid-soft: #ffece9;
+  --ok-soft: #e4f5ee;
+  --shadow-tint: 60 30 80;
+  --grain-opacity: 0.035;
+  --litmus: linear-gradient(100deg, #ff5a4f 0%, #e0409a 35%, #7c4dff 68%, #3b6bff 100%);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #120e18;
+    --surface: #1b1623;
+    --surface-2: #251e30;
+    --ink: #f5eff8;
+    --ink-2: #b4aac0;
+    --ink-3: #8a7f98;
+    --line: #322a3f;
+    --bond-soft: #2a2140;
+    --acid-soft: #3a1f22;
+    --ok-soft: #13302a;
+    --shadow-tint: 0 0 0;
+    --grain-opacity: 0.05;
+    --bond: #9573ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #120e18;
+  --surface: #1b1623;
+  --surface-2: #251e30;
+  --ink: #f5eff8;
+  --ink-2: #b4aac0;
+  --ink-3: #8a7f98;
+  --line: #322a3f;
+  --bond-soft: #2a2140;
+  --acid-soft: #3a1f22;
+  --ok-soft: #13302a;
+  --shadow-tint: 0 0 0;
+  --grain-opacity: 0.05;
+  --bond: #9573ff;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-acid: var(--acid);
+  --color-react: var(--react);
+  --color-bond: var(--bond);
+  --color-base: var(--base);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-bond-soft: var(--bond-soft);
+  --color-acid-soft: var(--acid-soft);
+  --color-ok-soft: var(--ok-soft);
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains);
+  --radius-card: 24px;
+  --shadow-soft: 0 1px 2px rgb(var(--shadow-tint) / 0.06), 0 8px 24px -8px rgb(var(--shadow-tint) / 0.12);
+  --shadow-lift: 0 2px 4px rgb(var(--shadow-tint) / 0.06), 0 18px 40px -12px rgb(var(--shadow-tint) / 0.22);
+}
+
+html {
+  background: var(--paper);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+/* Paper grain: an inline SVG noise at very low opacity. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+}
+
+.bg-litmus { background-image: var(--litmus); }
+.text-litmus {
+  background-image: var(--litmus);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Visible focus for keyboard users everywhere. */
+:focus-visible {
+  outline: 2.5px solid var(--bond);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Electrons orbiting on bond atoms (GPU-cheap). */
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.orbit { animation: orbit 14s linear infinite; transform-origin: center; transform-box: fill-box; }
+.orbit-slow { animation: orbit 22s linear infinite reverse; transform-origin: center; transform-box: fill-box; }
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface) 50%, var(--surface-2) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+.typing-dot { animation: pulse-dot 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Pure-CSS entrance: never blocks on JS animation frames. */
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: none; }
+}
+.slide-in { animation: slide-in 180ms ease-out both; }
+
+/* Hide scrollbars on horizontal chip rows while keeping them scrollable. */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }

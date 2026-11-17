@@ -49,6 +49,7 @@ async function main() {
     const again = await getTodayBatch(await viewer());
     assert.deepEqual(again.kind === "batch" && again.items.map((i) => i.id), batch.items.map((i) => i.id), "batch is stable within the day");
     step(`batch of 3: ${batch.items.map((i) => i.person.first_name).join(", ")}`);
+    step(`why you two: "${batch.items[0].why_text}"`);
 
     // ---- reaction (demo persona auto-accepts)
     const item = batch.items.find((i) => i.person.is_demo)!;

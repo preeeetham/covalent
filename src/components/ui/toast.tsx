@@ -13,7 +13,9 @@ export const toast = {
 };
 
 /** Show the error from an ActionResult, or run onOk. Returns true on success. */
-export function handle<T>(res: { ok: true; data?: T } | { ok: false; error: string }, okText?: string): res is { ok: true; data?: T } {
+export function handle<T>(res: { ok: true; data?: T } | { ok: false; error: string } | undefined, okText?: string): res is { ok: true; data?: T } {
+  // An action that redirected resolves without a result; the router is already navigating.
+  if (!res) return false;
   if (!res.ok) {
     toast.error(res.error);
     return false;

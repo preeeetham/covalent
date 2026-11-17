@@ -23,7 +23,7 @@ export function ElementsStep({ initial }: { initial: string[] }) {
       canNext={picked.length >= 5}
       loading={pending}
       onBack={() => router.push("/onboarding/3")}
-      onNext={() => start(async () => { if (handle(await saveElements(picked))) router.push("/onboarding/5"); })}
+      onNext={() => start(async () => { handle(await saveElements(picked)); })}
     >
       <div className="space-y-6">
         {cats.map((c) => (

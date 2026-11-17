@@ -35,3 +35,13 @@ export function photoEntitlement(i: EntitlementInput): BlurLevel {
   if (i.inBatchOrInvite) return 0;
   return "none";
 }
+
+/**
+ * Owners may view every version of their own photo; `requested` (the URL's ?level=) picks
+ * which, so "how others see you" can preview each round. Anything unrecognised → original.
+ * Only ever applied when viewer === owner.
+ */
+export function ownerPreviewLevel(requested: string | null): 0 | 1 | 2 | 3 | "original" {
+  if (requested === null || !/^[0-3]$/.test(requested)) return "original";
+  return Number(requested) as 0 | 1 | 2 | 3;
+}

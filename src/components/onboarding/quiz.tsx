@@ -21,7 +21,7 @@ export function QuizStep({ initial }: { initial: Record<string, number> }) {
   const next = () => {
     if (!last) return setI(i + 1);
     start(async () => {
-      if (handle(await saveQuiz(answers))) router.push("/onboarding/4");
+      handle(await saveQuiz(answers));
     });
   };
 

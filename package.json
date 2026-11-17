@@ -13,7 +13,8 @@
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts",
     "db:seed": "tsx scripts/seed.ts",
-    "smoke": "tsx --conditions=react-server scripts/smoke.ts"
+    "smoke": "tsx --conditions=react-server scripts/smoke.ts",
+    "photos:rerender": "tsx scripts/rerender-blurs.ts"
   },
   "dependencies": {
     "@dicebear/collection": "^9.4.2",

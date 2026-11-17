@@ -98,6 +98,13 @@ Research numbers come from industry press and vendor reports (Nov 2026 web resea
 | 41 | Realtime robustness | The change stream attaches a few seconds after SUBSCRIBED (longer on hosted); a message in that gap could be missed | Await the session before subscribing, and **refresh once when the stream reports ready**; smoke test now checks live delivery locally and in production | Polling for new messages |
 | 42 | Lighthouse & accessibility | Landing LCP 3.5 s (runtime blur of an inline SVG); several text colours under 4.5:1; a font file with unused axes | **Pre-rendered hero images**, contrast-checked tokens (`bond-text`, darker `ink-3`/ok/warn/react/danger, `on-accent`, a deeper gradient for text-bearing buttons), `<main>` landmarks, `robots.txt`; landing now 100/100/100/100 | Accepting the 88/97 scores |
 
+## 2026-11-18 — Owner feedback: speed and blur
+
+| # | What we considered | Finding | Decision | Rejected alternative |
+|---|---|---|---|---|
+| 43 | "Continue" in onboarding felt slow | Vercel functions ran in **Washington (iad1)** while the database is in **Mumbai (ap-south-1)**: every query crossed the globe (~200 ms), and one Continue made ~6 in sequence plus a second request for the next page | Pin functions to **Mumbai (`bom1`)** next to the database; each step saves in **one profile update** (independent writes in parallel) and **redirects from the server action**, so the next step arrives in the same response | Optimistic navigation before the save lands (could leave unsaved steps behind) |
+| 44 | Blur ladder on real photos | The "How others see you" preview showed the **sharp photo at every level**: owners were always served the original. On close-up faces the old ladder (σ 34/20/11/5) also left eye positions readable at level 0 and was nearly sharp at level 3 | Owners can request any level of **their own** photo (`?level=`; everyone else still gets only what they've earned). New ladder **σ 56/34/20/11**, tuned on a close-up: colour only → shape → features hinted → soft but recognisable → reveal. Existing photos re-rendered with `npm run photos:rerender` | Client-side CSS blur (can be removed in dev tools) |
+
 ---
 
 ## Open questions and risks

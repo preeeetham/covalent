@@ -20,7 +20,7 @@ export function IntentStep({ initial }: { initial: string | null }) {
       canNext={!!intent}
       loading={pending}
       onBack={() => router.push("/onboarding/1")}
-      onNext={() => start(async () => { if (handle(await saveIntent(intent!))) router.push("/onboarding/3"); })}
+      onNext={() => start(async () => { handle(await saveIntent(intent!)); })}
     >
       <div className="space-y-3" role="radiogroup" aria-label="Intent">
         {INTENTS.map((i) => (

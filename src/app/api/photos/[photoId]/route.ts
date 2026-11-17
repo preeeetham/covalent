@@ -1,15 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { admin } from "@/lib/supabase/admin";
 import { getUserId } from "@/lib/auth";
-import { photoEntitlement } from "@/lib/photos/entitlement";
+import { ownerPreviewLevel, photoEntitlement } from "@/lib/photos/entitlement";
 import { batchDateFor } from "@/lib/time";
 
 /**
- * Authorised image server. The client's `?v=` is ignored for access decisions:
+ * Authorised image server. For anyone else's photo the client's `?level=` is ignored:
  * entitlement is recomputed from the database on every request, and only the variant
  * the viewer has earned is streamed. Originals never leave the private bucket otherwise.
+ *
+ * Owners are entitled to every version of their own photo, so for them `?level=` picks
+ * which one (that's how "see how others see you" previews each round's blur).
  */
-export async function GET(_req: NextRequest, ctx: RouteContext<"/api/photos/[photoId]">) {
+export async function GET(req: NextRequest, ctx: RouteContext<"/api/photos/[photoId]">) {
   const { photoId } = await ctx.params;
   if (!/^[0-9a-f-]{36}$/.test(photoId)) return new NextResponse(null, { status: 404 });
   const viewerId = await getUserId();
@@ -20,7 +23,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/photos/[pho
   if (!photo) return new NextResponse(null, { status: 404 });
   const ownerId = photo.user_id;
 
-  let level: ReturnType<typeof photoEntitlement> = "original";
+  let level: ReturnType<typeof photoEntitlement> = ownerPreviewLevel(req.nextUrl.searchParams.get("level"));
   if (ownerId !== viewerId) {
     const [bond, block, viewer, inBatch] = await Promise.all([
       db
@@ -62,9 +65,10 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/photos/[pho
   return new NextResponse(file.stream(), {
     headers: {
       "Content-Type": "image/jpeg",
-      // Private, short cache. The URL's ?v= changes when the level changes.
+      // Private, short cache. The URL's ?level= changes when the level changes.
       "Cache-Control": "private, max-age=300",
       "X-Blur-Level": String(level),
     },
   });
 }
+

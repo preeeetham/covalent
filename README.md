@@ -84,6 +84,8 @@ npm run typecheck && npm run lint
 2. Seed it: `DOTENV_CONFIG_PATH=.env.production.local npm run db:seed` (an env file pointing at the hosted project).
 3. Import the repo in Vercel and set the env vars from `.env.example` (`NEXT_PUBLIC_SITE_URL` = the Vercel URL).
 4. Set `CRON_SECRET` in Vercel. `vercel.json` schedules a daily keep-alive (`/api/cron/keepalive`) so the free Supabase project doesn't pause from inactivity.
+5. Keep functions next to the database: `vercel.json` pins them to `bom1` (Mumbai) because the Supabase project is in `ap-south-1`. Change both together.
+6. After changing the blur strengths in `src/lib/photos/render.ts`, re-render stored photos: `DOTENV_CONFIG_PATH=.env.production.local npm run photos:rerender`.
 
 ## Quality checks
 

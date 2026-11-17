@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ARCHETYPE_BY_ID } from "@/content/archetypes";
 import { ArchetypeTile } from "@/components/brand/element-tile";
@@ -12,7 +11,6 @@ import { completeOnboarding } from "@/app/actions/onboarding";
 /** Onboarding's peak moment: your element. Shareable — the free viral loop. */
 export function ResultStep({ archetypeId, name }: { archetypeId: string; name: string }) {
   const a = ARCHETYPE_BY_ID[archetypeId];
-  const router = useRouter();
   const [pending, start] = useTransition();
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -41,7 +39,7 @@ export function ResultStep({ archetypeId, name }: { archetypeId: string; name: s
           loading={pending}
           onClick={() =>
             start(async () => {
-              if (handle(await completeOnboarding())) router.push("/today");
+              handle(await completeOnboarding());
             })
           }
         >

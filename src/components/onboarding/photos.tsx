@@ -19,7 +19,7 @@ export function PhotosStep({ photoIds }: { photoIds: string[] }) {
       canNext={photoIds.length > 0}
       loading={pending}
       onBack={() => router.push("/onboarding/5")}
-      onNext={() => start(async () => { if (handle(await finishPhotos())) router.push("/onboarding/7"); })}
+      onNext={() => start(async () => { handle(await finishPhotos()); })}
     >
       <div className="mb-5 flex gap-3 rounded-2xl bg-bond-soft p-4 text-sm text-ink">
         <EyeOff className="size-5 shrink-0 text-bond-text" />

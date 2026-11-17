@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { photoEntitlement } from "@/lib/photos/entitlement";
+import { ownerPreviewLevel, photoEntitlement } from "@/lib/photos/entitlement";
 import { detectContactInfo, sanitizeAiText } from "@/lib/safety";
 import { batchDateFor, nextResetAt } from "@/lib/time";
 import { archetypeFor } from "@/content/archetypes";
@@ -31,6 +31,13 @@ describe("photo entitlement (server-side blur)", () => {
   });
   it("blocks win over everything except self", () => {
     expect(photoEntitlement({ ...base, blocked: true, bond: { status: "revealed", round: 4 } })).toBe("none");
+  });
+  it("owners can preview each blur level of their own photo", () => {
+    expect(["0", "1", "2", "3"].map(ownerPreviewLevel)).toEqual([0, 1, 2, 3]);
+    expect(ownerPreviewLevel("original")).toBe("original");
+    expect(ownerPreviewLevel(null)).toBe("original");
+    expect(ownerPreviewLevel("4")).toBe("original");
+    expect(ownerPreviewLevel("1.5")).toBe("original");
   });
 });
 

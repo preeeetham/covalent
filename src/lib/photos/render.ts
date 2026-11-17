@@ -4,7 +4,9 @@ import sharp from "sharp";
  * Pure image rendering shared by the app (uploads) and the seed script (avatars).
  * Blur variants are downscaled before blurring so they can't be sharpened back.
  */
-export const BLUR_SIGMAS = [34, 20, 11, 5] as const; // level 0 (heaviest) … level 3 (lightest)
+// Level 0 (heaviest, batch cards) … level 3 (after round 3). Tuned on close-up faces so level 0 shows
+// only colour and mood, each round reveals a visible step, and the reveal is still a real jump.
+export const BLUR_SIGMAS = [56, 34, 20, 11] as const;
 const BLUR_WIDTH = 520;
 const MAX_ORIGINAL = 1200;
 export const ACCEPTED_FORMATS = new Set(["jpeg", "png", "webp", "svg"]);

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { StepShell } from "./step-shell";
 import { Chip, Field, inputCls } from "@/components/ui/field";
 import { handle } from "@/components/ui/toast";
@@ -14,7 +13,6 @@ type G = "woman" | "man" | "nonbinary";
 
 /** Four tiny screens instead of one long form (Hick's law: one decision at a time). */
 export function BasicsStep({ initial }: { initial: Init }) {
-  const router = useRouter();
   const [screen, setScreen] = useState(0);
   const [name, setName] = useState(initial.first_name);
   const [gender, setGender] = useState<G | null>((initial.gender as G) ?? null);
@@ -81,7 +79,7 @@ export function BasicsStep({ initial }: { initial: Init }) {
       onNext={() =>
         start(async () => {
           const res = await saveBasics({ first_name: name, gender: gender!, interested_in: interested, city: city as never, role, company, hometown });
-          if (handle(res)) router.push("/onboarding/2");
+          handle(res);
         })
       }
     >

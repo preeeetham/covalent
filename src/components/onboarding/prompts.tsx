@@ -33,7 +33,7 @@ export function PromptsStep({ initial }: { initial: A[] }) {
       canNext={done.length === 3}
       loading={pending}
       onBack={() => router.push("/onboarding/4")}
-      onNext={() => start(async () => { if (handle(await savePrompts(done))) router.push("/onboarding/6"); })}
+      onNext={() => start(async () => { handle(await savePrompts(done)); })}
     >
       <div className="space-y-3">
         {answers.map((a) => (

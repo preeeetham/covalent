@@ -32,3 +32,8 @@ What actually happened in each work session. Use this to fill the "journey" ques
 - Realtime tested with two accounts: messages arrive live in ~0.1–0.5 s. Hardened the subscription and closed the "stream attaching" gap; the smoke test now checks realtime in local and production.
 - Found and fixed a silent seed bug: evaluator chat histories were never inserted.
 - Lighthouse (mobile): landing 100/100/100/100 (was 88 perf, 97 a11y); signed-in pages 86–100 performance, 100 accessibility. Dark mode reviewed on every main screen.
+
+## 2026-11-18 — Owner feedback: speed and blur
+
+- Onboarding "Continue" was slow on the live app: functions ran in the US while the database is in Mumbai. Moved functions to Mumbai and cut each step to one save plus a same-response redirect (about 100 ms per step locally).
+- Uploaded a real photo and found the blur preview always showed it sharp; fixed, and made the blur ladder stronger and more even. Re-rendered every stored photo locally and in production.

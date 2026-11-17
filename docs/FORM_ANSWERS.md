@@ -6,11 +6,11 @@ Ready to paste. Numbers marked *assumption* are hypotheses to test, not data. Ed
 
 ## Project hosting link
 
-_Paste the full Vercel URL once deployed (do not shorten)._
+https://covalent-nine.vercel.app
 
 ## Project GitHub repository link
 
-_Paste the full GitHub URL._
+https://github.com/preeeetham/covalent
 
 ---
 

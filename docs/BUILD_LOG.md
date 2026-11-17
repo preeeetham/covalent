@@ -18,3 +18,9 @@ What actually happened in each work session. Use this to fill the "journey" ques
 - Screens: landing, legal pages, auth, 7-step onboarding, Today, Bonds, bond home, four rounds, reveal, Dates, You, Settings, founder dashboard, trusted-contact share page, PWA manifest + service worker.
 - Seed script (personas, evaluators, scenarios) and an end-to-end smoke test (full loop + RLS checks).
 - Browser testing at 375 px found and fixed: landing horizontal overflow, awkward "why you two" copy, demo button overlapping the main CTA, a "use server" file exporting a constant (crashed chat), sticky chat composer covering messages, SVG gradient ids breaking the logo, share-card layout, Round 1 depending on JS animation frames.
+
+## 2026-11-17 — AI and deployment
+
+- Wired Gemini (`gemini-3.5-flash-lite`, checked live; older models are retired) into match explanations, round quips and persona chat, keeping hand-written fallbacks.
+- Applied the schema to hosted Supabase, seeded it, and ran the end-to-end smoke test (full loop + RLS) against the hosted database: passed.
+- Created the public GitHub repo, linked Vercel, set production env vars, deployed to https://covalent-nine.vercel.app and checked public, protected and API routes over HTTP.

@@ -4,7 +4,8 @@
 
 Covalent is a dating app for verified young professionals in India, built as an eLitmus product. Instead of an endless swipe deck you get **three people a day**. Photos start **blurred** and sharpen as the two of you play **four short rounds** together. After a mutual **reveal**, you plan a real first date — and that's the only moment money changes hands: **₹99 each, returned as ₹99 off the bill** at partner cafés.
 
-- **Live app:** _add the deployed URL here_
+- **Live app:** https://covalent-nine.vercel.app
+- **Source:** https://github.com/preeeetham/covalent
 - **Why it's built this way:** [`docs/DECISIONS.md`](docs/DECISIONS.md) (research → finding → decision → rejected alternative)
 - **Submission answers:** [`docs/FORM_ANSWERS.md`](docs/FORM_ANSWERS.md)
 - **Build journey:** [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md)

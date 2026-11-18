@@ -8,18 +8,19 @@ type Theme = "system" | "light" | "dark";
 const KEY = "covalent-theme";
 let listeners: (() => void)[] = [];
 
+/** Light unless the person chose dark or "follow the system". */
 function read(): Theme {
   try {
     const t = localStorage.getItem(KEY);
-    return t === "light" || t === "dark" ? t : "system";
+    return t === "dark" || t === "system" ? t : "light";
   } catch {
-    return "system";
+    return "light";
   }
 }
 
 function applyTheme(t: Theme) {
   try {
-    if (t === "system") localStorage.removeItem(KEY);
+    if (t === "light") localStorage.removeItem(KEY);
     else localStorage.setItem(KEY, t);
   } catch {}
   const root = document.documentElement;
@@ -36,11 +37,11 @@ function subscribe(cb: () => void) {
 }
 
 export function ThemeToggle() {
-  const theme = useSyncExternalStore(subscribe, read, () => "system" as Theme);
+  const theme = useSyncExternalStore(subscribe, read, () => "light" as Theme);
   const opts = [
-    { id: "system" as const, label: "System", icon: Monitor },
     { id: "light" as const, label: "Light", icon: Sun },
     { id: "dark" as const, label: "Dark", icon: Moon },
+    { id: "system" as const, label: "System", icon: Monitor },
   ];
   return (
     <div className="grid grid-cols-3 gap-2 rounded-2xl border border-line bg-surface p-1.5" role="radiogroup" aria-label="Theme">

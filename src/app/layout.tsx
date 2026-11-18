@@ -31,22 +31,21 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FBF7F1" },
-    { media: "(prefers-color-scheme: dark)", color: "#120E18" },
-  ],
+  themeColor: "#FBF7F1",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
 };
 
-// Applies a saved theme choice before paint to avoid a flash.
-const themeScript = `try{var t=localStorage.getItem('covalent-theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t}}catch(e){}`;
+// Light is the default (set on <html> below). Before paint, apply a saved choice of dark
+// or "follow the system" so there's no flash.
+const themeScript = `try{var t=localStorage.getItem('covalent-theme'),r=document.documentElement;if(t==='dark'){r.dataset.theme='dark'}else if(t==='system'){r.removeAttribute('data-theme')}}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
+      data-theme="light"
       suppressHydrationWarning
       className={`${fraunces.variable} ${jakarta.variable} ${jetbrains.variable} h-full antialiased`}
     >

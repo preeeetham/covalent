@@ -1,113 +1,331 @@
+<div align="center">
+
 # Covalent
 
-> **Bonds are shared, not swiped.**
+### Bonds are shared, not swiped.
 
-Covalent is a dating app for verified young professionals in India, built as an eLitmus product. Instead of an endless swipe deck you get **three people a day**. Photos start **blurred** and sharpen as the two of you play **four short rounds** together. After a mutual **reveal**, you plan a real first date — and that's the only moment money changes hands: **₹99 each, returned as ₹99 off the bill** at partner cafés.
+**A dating app where you get to know someone _before_ you see them.**
 
-- **Live app:** https://covalent-nine.vercel.app
-- **Source:** https://github.com/preeeetham/covalent
-- **Why it's built this way:** [`docs/DECISIONS.md`](docs/DECISIONS.md) (research → finding → decision → rejected alternative)
-- **Submission answers:** [`docs/FORM_ANSWERS.md`](docs/FORM_ANSWERS.md)
-- **Build journey:** [`docs/BUILD_LOG.md`](docs/BUILD_LOG.md)
-- **Original product brief:** [`plan.md`](plan.md)
+Three verified people a day · photos that sharpen as you talk · a real date at the end
 
-## Try it as an evaluator
+[**Open the live app →**](https://covalent-nine.vercel.app)
 
-Four accounts are pre-seeded at different points in the journey (the password is shared in the submission form). Each has a **Demo** button in the tab bar with *New batch now*, *Skip partner wait* and *Reset this account*.
+<br />
 
-| Email | What you'll see |
+<img src="docs/screenshots/01-landing.webp" width="200" alt="Landing page" />&nbsp;&nbsp;
+<img src="docs/screenshots/02-today.webp" width="200" alt="Today's batch, photos blurred" />&nbsp;&nbsp;
+<img src="docs/screenshots/04-round.webp" width="200" alt="Round 2: Ask" />&nbsp;&nbsp;
+<img src="docs/screenshots/05-reveal.webp" width="200" alt="The reveal" />
+
+</div>
+
+<br />
+
+## The idea
+
+Most dating apps judge a person in half a second, from a photo. Covalent turns that around.
+
+Every evening you meet **three people**, not three hundred. Their photos start **blurred**. To see someone, the two of you play **four short rounds** together: quick-fire picks, one real question each, guessing each other's answers, and sketching a first date. With every round you both finish, the photo sharpens a little. After the last one, you choose together to reveal.
+
+By the time you see each other's faces, you already know whether you click. The only thing left to do is meet, so the app helps you plan a real date in a public place.
+
+In chemistry, a *covalent bond* is one where both atoms share. That's the whole product: **nothing happens unless both people put something in.**
+
+<br />
+
+## The journey at a glance
+
+```mermaid
+flowchart LR
+    A([Sign up]) --> B[Onboarding<br/>find your element]
+    B --> C[Today<br/>3 people, blurred]
+    C -->|React| D[Bond]
+    D --> E[Round 1<br/>Quick fire]
+    E --> F[Round 2<br/>Ask]
+    F --> G[Round 3<br/>Guess]
+    G --> H[Round 4<br/>First date draft]
+    H --> I{{Both tap<br/>reveal}}
+    I --> J[Plan a date]
+    J --> K([Meet, then<br/>private feedback])
+    E -.->|chat opens| L[Chat]
+```
+
+<br />
+
+## 1 · Sign up
+
+Sign up with **email**, **Google** or **GitHub**. *Continue with eLitmus ID* is shown as coming soon.
+
+Everyone confirms their **date of birth (18+ only)** and gives three separate consents:
+
+- the Terms and Community guidelines
+- the Privacy notice
+- the **eLitmus data firewall**: *your Covalent data is never shared with eLitmus recruiters or employers*
+
+Marketing emails are a separate opt-in. People who sign up with Google or GitHub see a short **"Almost there"** screen for the same checks before they start.
+
+<br />
+
+## 2 · Onboarding: find your element
+
+Six short steps, one decision per screen:
+
+| Step | What you do |
 |---|---|
-| `aarohi@covalent.test` | Fresh account — a full batch of three is waiting |
-| `kabir@covalent.test` | Mid-rounds: one bond with **Naina** (another evaluator — open both in two browsers to see realtime) and one with a demo persona |
-| `naina@covalent.test` | Revealed bond with Arjun and chat history — plan a date and try the mock checkout |
-| `dhruv@covalent.test` | One confirmed date coming up and one past date waiting for feedback. Also has the founder dashboard at `/admin` |
+| **About you** | First name (surnames never appear), who you are and who you'd like to meet, your city, and what you do |
+| **Intent** | *Something serious*, *Dating to see where it goes*, or *New in the city, friends first* |
+| **Values** | A 10-question quiz on a five-point scale between two poles. This drives matching. |
+| **Elements** | Pick 5–8 of 40 "elements" (chai, cricket, filter coffee, chess…): things you'd happily talk about for an hour |
+| **Prompts** | Answer three prompts. Specific beats clever. |
+| **Photos** | Add 1–4 photos. They're blurred **on our server**, so nobody can peek early. |
 
-All evaluator accounts can open `/admin`. You can also sign up a fresh account — new users get batches immediately in Bengaluru or Hyderabad.
+<table>
+<tr>
+<td width="62%">
 
-The 36 other people you'll meet are **demo personas**: fictional, tagged "Demo profile", with illustrated avatars. They accept reactions instantly and answer each round 3–8 seconds after you do.
+Onboarding ends on its high point: **your element**. Your quiz answers map you to one of 12 archetypes, like *Carbon: the connector* or *Gold: loyal, rare, values first*.
 
-## What's in the product
+You get a story-sized card to download and share on Instagram or WhatsApp.
 
-- **Sign in with email, Google or GitHub**; social sign-ups pass the same 18+ check and consents before onboarding.
-- **Daily batch of 3** with a values-based match score and a "why you two" line; ends with a deliberate *"That's today's batch"* screen and a countdown to 8 PM IST.
-- **Four rounds**: quick-fire this-or-that, ask one real question each, guess each other's answers, draft a first date. Answers stay hidden until **both** have played.
-- **Server-side blur**: four blur levels rendered with `sharp`; `/api/photos/[id]` re-checks entitlement on every request, so a sharp photo can't be pulled from the network tab.
-- **Chemistry score** on a litmus strip; **3 bond slots**; bonds close after **72 h** of silence; kind one-tap **dissolve**.
-- **Realtime chat** (after Round 1) with off-platform contact detection.
-- **Dates**: public venues only, propose/counter/accept, **₹99 commitment** via a mock UPI-style checkout (clearly marked test mode), trusted-contact **share link**, private post-date **feedback** feeding a reliability score.
-- **Catalysts**: sachet-priced extras (₹39 / ₹99 for three): 4th slot, extend a bond, one extra pick.
-- **Safety & legal**: 18+ gate, unbundled consents including the eLitmus data firewall, report/block everywhere, moderation queue, data export, account deletion, privacy/terms/guidelines/safety pages (DPDP Act 2023 / IT Rules 2021 aware, marked as drafts).
-- **Founder dashboard** (`/admin`): funnel, gender balance by city, revenue, reports queue, city waitlists.
-- **PWA**: installable, app-shell service worker; light and dark themes.
+Bengaluru and Hyderabad are live. People in other cities join a **waitlist**, because Covalent launches one city at a time so every batch is worth opening.
 
-## Stack
+</td>
+<td width="38%" align="center">
+<img src="docs/screenshots/09-element-card.webp" width="220" alt="Shareable element card" />
+</td>
+</tr>
+</table>
 
-Next.js 16 (App Router, Server Actions, TypeScript) · Supabase (Postgres + RLS, Auth, Realtime, Storage) · Tailwind CSS v4 · `motion` · `sharp` · `zod` · optional Google Gemini. Hosted on Vercel + Supabase free tiers.
+<br />
 
-```
-src/
-  app/            routes: (marketing) landing + legal, (auth), onboarding, (app) today/bonds/dates/you, admin, api
-  app/actions/    server actions — every one verifies the session and validates with zod
-  components/     brand (logo, element tiles, atoms, litmus strip, blur photo), feature UI
-  content/        quiz, elements, archetypes, prompts, round banks, venues, 36 personas, evaluators
-  lib/            matching, rounds logic, photo entitlement + blur pipeline, data layer, payments, AI
-supabase/migrations/   schema + RLS policies
-scripts/          seed.ts (demo data), smoke.ts (end-to-end test against a real DB)
-tests/            unit tests (matching, rounds, entitlement, safety, clock)
-```
+## 3 · Today: three people, not three hundred
 
-**Security model:** RLS is enabled on every table with default-deny. Browsers only get narrow, member-scoped `SELECT` policies (needed for realtime). All writes go through server actions using the service role after authorisation checks. Photos live in a private bucket.
+<table>
+<tr>
+<td width="38%" align="center">
+<img src="docs/screenshots/02-today.webp" width="240" alt="Today's batch" />
+</td>
+<td width="62%">
 
-## Run it locally
+Every day at **8 PM IST** you get a new batch of **three people**. Each card shows:
 
-Prerequisites: Node 20+, Docker (for local Supabase).
+- a **blurred** photo
+- first name, age and a **Verified** badge
+- their role, element and intent
+- a **"why you two"** line explaining the match: shared values, elements, even the same hometown
 
-```bash
-npm install
-npx supabase start -x edge-runtime,vector,logflare,imgproxy
-npx supabase status -o env      # copy API_URL, ANON_KEY, SERVICE_ROLE_KEY into .env.local
-cp .env.example .env.local      # then fill in the values above and set DEMO_PASSWORD
-npm run db:seed                 # venues, 36 personas, 4 evaluators + scenarios
-npm run dev                     # http://localhost:3000
-```
+For each person you either **react**, which starts a bond, or **pass**.
 
-Checks:
+When you've seen all three, the app says so plainly, *"That's today's batch"*, and shows a countdown to the next one. No infinite scroll, no reason to keep checking.
 
-```bash
-npm test             # unit tests
-npm run smoke        # end-to-end loop, realtime and RLS checks against the local database
-npm run typecheck && npm run lint
-```
+</td>
+</tr>
+</table>
 
-## Deploy (free tiers)
+<br />
 
-1. Create a Supabase project. Push the schema: `npx supabase db push --db-url "<connection string>"`.
-2. Seed it: `DOTENV_CONFIG_PATH=.env.production.local npm run db:seed` (an env file pointing at the hosted project).
-3. Import the repo in Vercel and set the env vars from `.env.example` (`NEXT_PUBLIC_SITE_URL` = the Vercel URL).
-4. Optional social login: in Supabase → Authentication → Sign In / Providers, enable **Google** and/or **GitHub** with your OAuth client ID and secret (callback URL `https://<project-ref>.supabase.co/auth/v1/callback`). Under URL Configuration set the Site URL to your Vercel URL and add `http://localhost:3000/**` to Redirect URLs. The buttons appear automatically once a provider is on.
-5. Set `CRON_SECRET` in Vercel. `vercel.json` schedules a daily keep-alive (`/api/cron/keepalive`) so the free Supabase project doesn't pause from inactivity.
-6. Keep functions next to the database: `vercel.json` pins them to `bom1` (Mumbai) because the Supabase project is in `ap-south-1`. Change both together.
-7. After changing the blur strengths in `src/lib/photos/render.ts`, re-render stored photos: `DOTENV_CONFIG_PATH=.env.production.local npm run photos:rerender`.
+## 4 · Bonds: fewer, better connections
 
-## Quality checks
+<table>
+<tr>
+<td width="62%">
 
-Lighthouse (mobile, Nov 2026): landing page **100 / 100 / 100 / 100** (performance / accessibility / best practices / SEO); signed-in screens score 86–100 for performance and **100** for accessibility. Text colours are checked against WCAG AA (4.5:1) in both light and dark themes.
+Reacting to someone starts a **bond**. A real person receives an **invite** they can accept, and demo profiles accept straight away.
 
-## Third-party disclosure
+- **Three bond slots at a time.** To start a fourth, you finish or close one first. Matches can't be hoarded.
+- **72 hours of silence closes a bond**, kindly and automatically. You can also **dissolve** a bond in one tap with an optional reason. Built-in closure replaces ghosting.
+- A **chemistry score** starts from your match score and grows with every round you play. It reads *Inert*, then *Warming*, then *Reactive*, then *Covalent*.
+- Two overlapping atoms show how far along you are, and the tab bar shows a badge when it's **your move**.
 
-Built from scratch for this assignment; no app template was used. Libraries and assets:
+</td>
+<td width="38%" align="center">
+<img src="docs/screenshots/03-bond.webp" width="240" alt="A bond, mid-rounds" />
+</td>
+</tr>
+</table>
 
-- [Next.js](https://nextjs.org), [React](https://react.dev), [Supabase](https://supabase.com) (+ `@supabase/ssr`), [Tailwind CSS](https://tailwindcss.com), [motion](https://motion.dev), [lucide-react](https://lucide.dev) icons, [zod](https://zod.dev), [sharp](https://sharp.pixelplumbing.com), [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge), [Vitest](https://vitest.dev), [tsx](https://tsx.is), [dotenv](https://github.com/motdotla/dotenv).
-- Demo avatars: [DiceBear](https://www.dicebear.com) **Notionists** style (CC0 1.0), generated at seed time. No photos of real people are used for fictional profiles.
-- Fonts: Fraunces, Plus Jakarta Sans, JetBrains Mono (SIL Open Font License) via Google Fonts / `@fontsource/fraunces`.
-- Optional AI: Google Gemini API (free tier) for copy garnish, always with hand-written fallbacks.
-- Smooth wheel scrolling: [Lenis](https://lenis.darkroom.engineering) (MIT).
-- Development used AI coding assistance (Claude Code). Product decisions, research and trade-offs are documented in `docs/DECISIONS.md`.
+<br />
 
-## Known limitations
+## 5 · The four rounds
 
-- Payments run on a **mock provider** (test mode); a Razorpay provider is stubbed with notes on going live.
-- "Continue with eLitmus ID" is shown but disabled; verification is simulated for seeded accounts.
-- Venue names are fictional (real neighbourhoods). Legal pages are drafts, not legal advice.
-- No push notifications; the batch and "your move" badges are pull-based.
-- Without a Gemini key, demo personas chat from a canned reply bank.
+The heart of Covalent. You both get the same draw of questions. **Your partner's answers stay hidden until you've both played**, so nobody can copy.
+
+<table>
+<tr>
+<td width="38%" align="center">
+<img src="docs/screenshots/04-round.webp" width="240" alt="Round 2: Ask" />
+</td>
+<td width="62%">
+
+| Round | What you do |
+|---|---|
+| **1 · Quick fire** | Eight this-or-thats. Don't overthink it. |
+| **2 · Ask** | Pick one of three questions for them to answer, and answer the one they pick for you. React to their answer with an emoji. |
+| **3 · Guess** | Five statements. Answer for yourself, then predict what they said. |
+| **4 · First date draft** | Pick two date ideas and a time slot. Covalent finds the overlap. |
+
+After each round, a short note in the chat sums it up, like *"Round 4 · You both picked the same date idea. Someone book it."*
+
+</td>
+</tr>
+</table>
+
+### How the photo sharpens
+
+<p align="center">
+<img src="docs/screenshots/blur-ladder.webp" alt="The same photo at each blur level" />
+</p>
+
+<table align="center">
+<tr>
+<td align="center"><b>In a batch</b><br/>colour and mood</td>
+<td align="center"><b>After round 1</b><br/>a shape</td>
+<td align="center"><b>After round 2</b><br/>a hint of features</td>
+<td align="center"><b>After round 3</b><br/>soft but recognisable</td>
+<td align="center"><b>Revealed</b><br/>the real photo</td>
+</tr>
+</table>
+
+Every blur level is rendered **on the server**. The app only ever sends the version you've earned, so a sharp photo can't be pulled out of the browser. On your profile, a slider lets you preview exactly what someone sees of you at each stage.
+
+<br />
+
+## 6 · The reveal
+
+<table>
+<tr>
+<td width="62%">
+
+After round four, each of you taps **Reveal**. The photos go sharp only when **both** have tapped. It's mutual, like everything else.
+
+The reveal screen shows your final chemistry and one of their prompt answers: *"You got here on conversation, not a photo. Now make it real."* Then you get two choices: **Plan a first date**, or **Keep chatting first**.
+
+</td>
+<td width="38%" align="center">
+<img src="docs/screenshots/05-reveal.webp" width="240" alt="The reveal" />
+</td>
+</tr>
+</table>
+
+<br />
+
+## 7 · Chat
+
+<table>
+<tr>
+<td width="38%" align="center">
+<img src="docs/screenshots/06-chat.webp" width="240" alt="Chat with round notes" />
+</td>
+<td width="62%">
+
+Chat opens once you've **both finished round one**, so the first message is never just "hey". Your rounds give you something real to talk about.
+
+- Messages arrive **live**, in under a second.
+- Round results appear in the conversation as small notes.
+- Try to share a phone number, UPI ID, email or social handle before the reveal, and Covalent **checks with you first**. It's a gentle nudge to keep things on the app until you know each other.
+- **Report** and **block** are always one tap away.
+
+</td>
+</tr>
+</table>
+
+<br />
+
+## 8 · Plan a real date
+
+<table>
+<tr>
+<td width="62%">
+
+Dates happen in **public places only**: partner cafés and restaurants in your city.
+
+1. **Propose** a venue and time. Your match can **accept** or **suggest another**.
+2. Once you both agree, each of you pays a **₹99 commitment** through a UPI-style checkout. It isn't a fee: **it comes back as ₹99 off your bill** at the venue. If someone doesn't show up, they lose it, which keeps no-shows rare. Cancelling refunds it.
+3. **Share the plan with a trusted contact.** A private link shows a friend just the first names, venue and time.
+
+*The checkout runs in test mode: no real money moves.*
+
+</td>
+<td width="38%" align="center">
+<img src="docs/screenshots/07-dates.webp" width="240" alt="Dates and post-date feedback" />
+</td>
+</tr>
+</table>
+
+<br />
+
+## 9 · After the date
+
+Once the date has happened, Covalent asks three private questions: **Did they show up? Did you feel safe? Would you meet again?** There's also an optional note for the team.
+
+Only *"showed up"* affects the other person's **reliability score**. Everything else stays private and helps us keep the community safe. Showing up builds reliability and earns a **Reliable** badge. No-shows cost more than shows earn.
+
+<br />
+
+## 10 · You
+
+<table>
+<tr>
+<td width="38%" align="center">
+<img src="docs/screenshots/08-you.webp" width="240" alt="Your profile" />
+</td>
+<td width="62%">
+
+Your own space:
+
+- your **element** and share card
+- your **reliability**, and whether you're **verified**
+- **"How others see you"**: drag a slider to see your photo exactly as a match sees it at each round
+- **Catalysts**: small optional boosts for busy weeks
+  - a fourth bond slot for a week
+  - extend a bond by 48 hours
+  - one extra pick today
+
+  They cost **₹39 each, or ₹99 for three**, and you never need one to meet someone.
+- **Settings**: edit your profile, manage blocks, **download all your data**, or **delete your account** for good
+
+</td>
+</tr>
+</table>
+
+<br />
+
+## Safety, built in
+
+- **Verified profiles.** eLitmus already knows each candidate's real identity, so a "Verified" badge means something.
+- **18+ only**, with a date-of-birth check at sign-up.
+- **Report and block everywhere**: on cards, in bonds and in chat. Reports go to a moderation queue.
+- **Your photos are protected.** Blur is enforced on the server, and nobody can see you sharp before a mutual reveal.
+- **Public places only** for dates, plus a trusted-contact share link.
+- **Your data is yours.** You can export it or delete your account, and nothing you do here reaches recruiters.
+
+<br />
+
+## Try it yourself
+
+Open **[covalent-nine.vercel.app](https://covalent-nine.vercel.app)** on your phone, or use one of four pre-seeded accounts. Each sits at a different point in the journey (the password is shared in the submission form):
+
+| Account | Where you'll start |
+|---|---|
+| `aarohi@covalent.test` | **Fresh.** A full batch of three is waiting. |
+| `kabir@covalent.test` | **Mid-rounds.** A bond with **Naina** (another tester: open both in two browsers to watch chat arrive live) and one with a demo profile. |
+| `naina@covalent.test` | **Revealed.** A chat history with Arjun. Plan a date and try the checkout. |
+| `dhruv@covalent.test` | **Dates.** One date coming up and one waiting for feedback. Also has the founder dashboard at `/admin`. |
+
+The other people you'll meet are **demo profiles**: fictional, labelled *Demo profile*, with illustrated avatars. They accept reactions instantly and play each round back within a few seconds, so you can try the whole journey on your own.
+
+Each account has a **Demo** tab with *New batch now*, *Skip partner wait* and *Reset this account*.
+
+<br />
+
+---
+
+<div align="center">
+
+**Want to look under the hood?**
+
+[Development guide](docs/DEVELOPMENT.md) · [Why it's built this way](docs/DECISIONS.md) · [Build log](docs/BUILD_LOG.md) · [Product brief](plan.md)
+
+<sub>Built for the eLitmus product assignment · Next.js · Supabase · Vercel</sub>
+
+</div>

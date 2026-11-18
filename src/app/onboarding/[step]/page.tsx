@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { getViewer } from "@/lib/auth";
+import { getViewer, redirectWithoutViewer } from "@/lib/auth";
 import { admin } from "@/lib/supabase/admin";
 import { ARCHETYPE_BY_ID } from "@/content/archetypes";
 import { Logo } from "@/components/brand/logo";
@@ -18,7 +18,7 @@ export default async function OnboardingStep(props: PageProps<"/onboarding/[step
   const step = Number(s);
   if (!Number.isInteger(step) || step < 1 || step > TOTAL) notFound();
   const v = await getViewer();
-  if (!v) redirect("/login");
+  if (!v) return redirectWithoutViewer();
   if (v.onboarded_at) redirect("/today");
   const reached = Math.max(1, v.onboarding_step);
   if (step > reached) redirect(`/onboarding/${reached}`);

@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const APP_PREFIXES = ["/today", "/bonds", "/dates", "/you", "/onboarding", "/admin"];
+const APP_PREFIXES = ["/today", "/bonds", "/dates", "/you", "/onboarding", "/admin", "/welcome"];
 
 /**
  * Refreshes the Supabase session cookie on every request and does an optimistic

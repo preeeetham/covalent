@@ -28,6 +28,7 @@ The 36 other people you'll meet are **demo personas**: fictional, tagged "Demo p
 
 ## What's in the product
 
+- **Sign in with email, Google or GitHub**; social sign-ups pass the same 18+ check and consents before onboarding.
 - **Daily batch of 3** with a values-based match score and a "why you two" line; ends with a deliberate *"That's today's batch"* screen and a countdown to 8 PM IST.
 - **Four rounds**: quick-fire this-or-that, ask one real question each, guess each other's answers, draft a first date. Answers stay hidden until **both** have played.
 - **Server-side blur**: four blur levels rendered with `sharp`; `/api/photos/[id]` re-checks entitlement on every request, so a sharp photo can't be pulled from the network tab.
@@ -83,9 +84,10 @@ npm run typecheck && npm run lint
 1. Create a Supabase project. Push the schema: `npx supabase db push --db-url "<connection string>"`.
 2. Seed it: `DOTENV_CONFIG_PATH=.env.production.local npm run db:seed` (an env file pointing at the hosted project).
 3. Import the repo in Vercel and set the env vars from `.env.example` (`NEXT_PUBLIC_SITE_URL` = the Vercel URL).
-4. Set `CRON_SECRET` in Vercel. `vercel.json` schedules a daily keep-alive (`/api/cron/keepalive`) so the free Supabase project doesn't pause from inactivity.
-5. Keep functions next to the database: `vercel.json` pins them to `bom1` (Mumbai) because the Supabase project is in `ap-south-1`. Change both together.
-6. After changing the blur strengths in `src/lib/photos/render.ts`, re-render stored photos: `DOTENV_CONFIG_PATH=.env.production.local npm run photos:rerender`.
+4. Optional social login: in Supabase → Authentication → Sign In / Providers, enable **Google** and/or **GitHub** with your OAuth client ID and secret (callback URL `https://<project-ref>.supabase.co/auth/v1/callback`). Under URL Configuration set the Site URL to your Vercel URL and add `http://localhost:3000/**` to Redirect URLs. The buttons appear automatically once a provider is on.
+5. Set `CRON_SECRET` in Vercel. `vercel.json` schedules a daily keep-alive (`/api/cron/keepalive`) so the free Supabase project doesn't pause from inactivity.
+6. Keep functions next to the database: `vercel.json` pins them to `bom1` (Mumbai) because the Supabase project is in `ap-south-1`. Change both together.
+7. After changing the blur strengths in `src/lib/photos/render.ts`, re-render stored photos: `DOTENV_CONFIG_PATH=.env.production.local npm run photos:rerender`.
 
 ## Quality checks
 

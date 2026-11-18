@@ -37,3 +37,4 @@ What actually happened in each work session. Use this to fill the "journey" ques
 
 - Onboarding "Continue" was slow on the live app: functions ran in the US while the database is in Mumbai. Moved functions to Mumbai and cut each step to one save plus a same-response redirect (about 100 ms per step locally).
 - Uploaded a real photo and found the blur preview always showed it sharp; fixed, and made the blur ladder stronger and more even. Re-rendered every stored photo locally and in production.
+- Added Google and GitHub sign-in (Supabase Auth providers) with a short "Almost there" step for the 18+ check and consents. Also stopped the sign-up and login forms from wiping what people typed after an error.

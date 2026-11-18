@@ -2,30 +2,19 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
 import { signUp } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
+import { keepValues } from "@/components/ui/keep-values";
 import { Field, inputCls } from "@/components/ui/field";
+import { AgeAndConsents } from "./consents";
+import { OAuthButtons } from "./oauth-buttons";
+import type { OAuthProvider } from "@/lib/oauth-providers";
 
-function maxDob() {
-  const d = new Date();
-  d.setFullYear(d.getFullYear() - 18);
-  return d.toISOString().slice(0, 10);
-}
-
-function Consent({ name, required, children }: { name: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <label className="flex gap-3 text-sm leading-snug text-ink-2">
-      <input type="checkbox" name={name} required={required} className="mt-0.5 size-5 shrink-0 accent-[var(--bond)]" />
-      <span>{children}</span>
-    </label>
-  );
-}
-
-export function SignupForm() {
+export function SignupForm({ providers }: { providers: OAuthProvider[] }) {
   const [state, action, pending] = useActionState(signUp, null);
   return (
-    <form action={action} className="mt-8 space-y-4">
+    <form onSubmit={keepValues(action)} className="mt-8 space-y-4">
+      <OAuthButtons providers={providers} />
       <Button type="button" size="lg" block disabled title="Coming with eLitmus single sign-on">
         Continue with eLitmus ID · soon
       </Button>
@@ -38,39 +27,7 @@ export function SignupForm() {
       <Field label="Password" hint="At least 8 characters.">
         <input name="password" type="password" autoComplete="new-password" minLength={8} required className={inputCls} />
       </Field>
-      <Field label="Date of birth" hint="Covalent is for adults only (18+). We show your age, never your birthday.">
-        <input name="dob" type="date" max={maxDob()} required className={inputCls} />
-      </Field>
-
-      <div className="space-y-3 rounded-2xl border border-line bg-surface p-4">
-        <Consent name="terms" required>
-          I agree to the{" "}
-          <Link href="/terms" target="_blank" className="font-semibold text-ink underline">
-            Terms
-          </Link>{" "}
-          and{" "}
-          <Link href="/guidelines" target="_blank" className="font-semibold text-ink underline">
-            Community guidelines
-          </Link>
-          .
-        </Consent>
-        <Consent name="privacy" required>
-          I've read the{" "}
-          <Link href="/privacy" target="_blank" className="font-semibold text-ink underline">
-            Privacy notice
-          </Link>{" "}
-          and consent to Covalent processing my data to find me matches.
-        </Consent>
-        <Consent name="firewall" required>
-          <span className="flex items-start gap-1.5">
-            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-bond-text" />
-            <span>
-              I understand <strong className="text-ink">my Covalent data is never shared with eLitmus recruiters or employers</strong>. Only my verification status is used.
-            </span>
-          </span>
-        </Consent>
-        <Consent name="marketing">Send me occasional updates, like when a new city opens. (Optional)</Consent>
-      </div>
+      <AgeAndConsents />
 
       {state && !state.ok && (
         <p role="alert" className="rounded-2xl bg-acid-soft px-4 py-3 text-sm text-ink">

@@ -27,10 +27,18 @@ export const getViewer = cache(async (): Promise<Profile | null> => {
   return data;
 });
 
+/**
+ * Signed in but no profile yet = a Google/GitHub sign-up that hasn't done the 18+ check and
+ * consents. Send them to /welcome instead of /login (which would bounce them back here).
+ */
+export async function redirectWithoutViewer(): Promise<never> {
+  redirect((await getUserId()) ? "/welcome" : "/login");
+}
+
 /** For pages: must be signed in AND onboarded. */
 export async function requireViewer(): Promise<Profile> {
   const v = await getViewer();
-  if (!v) redirect("/login");
+  if (!v) return redirectWithoutViewer();
   if (!v.onboarded_at) redirect(`/onboarding/${Math.max(1, v.onboarding_step)}`);
   return v;
 }

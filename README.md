@@ -10,13 +10,6 @@ Three verified people a day · photos that sharpen as you talk · a real date at
 
 [**Open the live app →**](https://covalent-nine.vercel.app)
 
-<br />
-
-<img src="docs/screenshots/01-landing.webp" width="200" alt="Landing page" />&nbsp;&nbsp;
-<img src="docs/screenshots/02-today.webp" width="200" alt="Today's batch, photos blurred" />&nbsp;&nbsp;
-<img src="docs/screenshots/04-round.webp" width="200" alt="Round 2: Ask" />&nbsp;&nbsp;
-<img src="docs/screenshots/05-reveal.webp" width="200" alt="The reveal" />
-
 </div>
 
 <br />
@@ -36,17 +29,17 @@ In chemistry, a *covalent bond* is one where both atoms share. That's the whole 
 ## The journey at a glance
 
 ```mermaid
-flowchart LR
-    A([Sign up]) --> B[Onboarding<br/>find your element]
-    B --> C[Today<br/>3 people, blurred]
-    C -->|React| D[Bond]
-    D --> E[Round 1<br/>Quick fire]
-    E --> F[Round 2<br/>Ask]
-    F --> G[Round 3<br/>Guess]
-    G --> H[Round 4<br/>First date draft]
-    H --> I{{Both tap<br/>reveal}}
-    I --> J[Plan a date]
-    J --> K([Meet, then<br/>private feedback])
+flowchart TD
+    A([Sign up]) --> B[Onboarding · find your element]
+    B --> C[Today · three people, photos blurred]
+    C -->|React| D[A bond begins]
+    D --> E[Round 1 · Quick fire]
+    E --> F[Round 2 · Ask]
+    F --> G[Round 3 · Guess]
+    G --> H[Round 4 · First date draft]
+    H --> I{{Both tap Reveal}}
+    I --> J[Plan a real date]
+    J --> K([Meet, then private feedback])
     E -.->|chat opens| L[Chat]
 ```
 
@@ -79,33 +72,13 @@ Six short steps, one decision per screen:
 | **Prompts** | Answer three prompts. Specific beats clever. |
 | **Photos** | Add 1–4 photos. They're blurred **on our server**, so nobody can peek early. |
 
-<table>
-<tr>
-<td width="62%">
-
-Onboarding ends on its high point: **your element**. Your quiz answers map you to one of 12 archetypes, like *Carbon: the connector* or *Gold: loyal, rare, values first*.
-
-You get a story-sized card to download and share on Instagram or WhatsApp.
+Onboarding ends on its high point: **your element**. Your quiz answers map you to one of 12 archetypes, like *Carbon: the connector* or *Gold: loyal, rare, values first*. You get a story-sized card to download and share on Instagram or WhatsApp.
 
 Bengaluru and Hyderabad are live. People in other cities join a **waitlist**, because Covalent launches one city at a time so every batch is worth opening.
-
-</td>
-<td width="38%" align="center">
-<img src="docs/screenshots/09-element-card.webp" width="220" alt="Shareable element card" />
-</td>
-</tr>
-</table>
 
 <br />
 
 ## 3 · Today: three people, not three hundred
-
-<table>
-<tr>
-<td width="38%" align="center">
-<img src="docs/screenshots/02-today.webp" width="240" alt="Today's batch" />
-</td>
-<td width="62%">
 
 Every day at **8 PM IST** you get a new batch of **three people**. Each card shows:
 
@@ -118,31 +91,16 @@ For each person you either **react**, which starts a bond, or **pass**.
 
 When you've seen all three, the app says so plainly, *"That's today's batch"*, and shows a countdown to the next one. No infinite scroll, no reason to keep checking.
 
-</td>
-</tr>
-</table>
-
 <br />
 
 ## 4 · Bonds: fewer, better connections
-
-<table>
-<tr>
-<td width="62%">
 
 Reacting to someone starts a **bond**. A real person receives an **invite** they can accept, and demo profiles accept straight away.
 
 - **Three bond slots at a time.** To start a fourth, you finish or close one first. Matches can't be hoarded.
 - **72 hours of silence closes a bond**, kindly and automatically. You can also **dissolve** a bond in one tap with an optional reason. Built-in closure replaces ghosting.
 - A **chemistry score** starts from your match score and grows with every round you play. It reads *Inert*, then *Warming*, then *Reactive*, then *Covalent*.
-- Two overlapping atoms show how far along you are, and the tab bar shows a badge when it's **your move**.
-
-</td>
-<td width="38%" align="center">
-<img src="docs/screenshots/03-bond.webp" width="240" alt="A bond, mid-rounds" />
-</td>
-</tr>
-</table>
+- The tab bar shows a badge when it's **your move**.
 
 <br />
 
@@ -150,41 +108,14 @@ Reacting to someone starts a **bond**. A real person receives an **invite** they
 
 The heart of Covalent. You both get the same draw of questions. **Your partner's answers stay hidden until you've both played**, so nobody can copy.
 
-<table>
-<tr>
-<td width="38%" align="center">
-<img src="docs/screenshots/04-round.webp" width="240" alt="Round 2: Ask" />
-</td>
-<td width="62%">
+| Round | What you do | The photo after it |
+|---|---|---|
+| **1 · Quick fire** | Eight this-or-thats. Don't overthink it. | Sharpens a little: a shape |
+| **2 · Ask** | Pick one of three questions for them to answer, and answer the one they pick for you. React to their answer with an emoji. | A hint of features |
+| **3 · Guess** | Five statements. Answer for yourself, then predict what they said. | Soft but recognisable |
+| **4 · First date draft** | Pick two date ideas and a time slot. Covalent finds the overlap. | Ready to reveal |
 
-| Round | What you do |
-|---|---|
-| **1 · Quick fire** | Eight this-or-thats. Don't overthink it. |
-| **2 · Ask** | Pick one of three questions for them to answer, and answer the one they pick for you. React to their answer with an emoji. |
-| **3 · Guess** | Five statements. Answer for yourself, then predict what they said. |
-| **4 · First date draft** | Pick two date ideas and a time slot. Covalent finds the overlap. |
-
-After each round, a short note in the chat sums it up, like *"Round 4 · You both picked the same date idea. Someone book it."*
-
-</td>
-</tr>
-</table>
-
-### How the photo sharpens
-
-<p align="center">
-<img src="docs/screenshots/blur-ladder.webp" alt="The same photo at each blur level" />
-</p>
-
-<table align="center">
-<tr>
-<td align="center"><b>In a batch</b><br/>colour and mood</td>
-<td align="center"><b>After round 1</b><br/>a shape</td>
-<td align="center"><b>After round 2</b><br/>a hint of features</td>
-<td align="center"><b>After round 3</b><br/>soft but recognisable</td>
-<td align="center"><b>Revealed</b><br/>the real photo</td>
-</tr>
-</table>
+Before any round, a photo shows only **colour and mood**. After each round, a short note in the chat sums it up, like *"Round 4 · You both picked the same date idea. Someone book it."*
 
 Every blur level is rendered **on the server**. The app only ever sends the version you've earned, so a sharp photo can't be pulled out of the browser. On your profile, a slider lets you preview exactly what someone sees of you at each stage.
 
@@ -192,31 +123,13 @@ Every blur level is rendered **on the server**. The app only ever sends the vers
 
 ## 6 · The reveal
 
-<table>
-<tr>
-<td width="62%">
-
 After round four, each of you taps **Reveal**. The photos go sharp only when **both** have tapped. It's mutual, like everything else.
 
 The reveal screen shows your final chemistry and one of their prompt answers: *"You got here on conversation, not a photo. Now make it real."* Then you get two choices: **Plan a first date**, or **Keep chatting first**.
 
-</td>
-<td width="38%" align="center">
-<img src="docs/screenshots/05-reveal.webp" width="240" alt="The reveal" />
-</td>
-</tr>
-</table>
-
 <br />
 
 ## 7 · Chat
-
-<table>
-<tr>
-<td width="38%" align="center">
-<img src="docs/screenshots/06-chat.webp" width="240" alt="Chat with round notes" />
-</td>
-<td width="62%">
 
 Chat opens once you've **both finished round one**, so the first message is never just "hey". Your rounds give you something real to talk about.
 
@@ -225,17 +138,9 @@ Chat opens once you've **both finished round one**, so the first message is neve
 - Try to share a phone number, UPI ID, email or social handle before the reveal, and Covalent **checks with you first**. It's a gentle nudge to keep things on the app until you know each other.
 - **Report** and **block** are always one tap away.
 
-</td>
-</tr>
-</table>
-
 <br />
 
 ## 8 · Plan a real date
-
-<table>
-<tr>
-<td width="62%">
 
 Dates happen in **public places only**: partner cafés and restaurants in your city.
 
@@ -244,13 +149,6 @@ Dates happen in **public places only**: partner cafés and restaurants in your c
 3. **Share the plan with a trusted contact.** A private link shows a friend just the first names, venue and time.
 
 *The checkout runs in test mode: no real money moves.*
-
-</td>
-<td width="38%" align="center">
-<img src="docs/screenshots/07-dates.webp" width="240" alt="Dates and post-date feedback" />
-</td>
-</tr>
-</table>
 
 <br />
 
@@ -264,13 +162,6 @@ Only *"showed up"* affects the other person's **reliability score**. Everything 
 
 ## 10 · You
 
-<table>
-<tr>
-<td width="38%" align="center">
-<img src="docs/screenshots/08-you.webp" width="240" alt="Your profile" />
-</td>
-<td width="62%">
-
 Your own space:
 
 - your **element** and share card
@@ -283,10 +174,6 @@ Your own space:
 
   They cost **₹39 each, or ₹99 for three**, and you never need one to meet someone.
 - **Settings**: edit your profile, manage blocks, **download all your data**, or **delete your account** for good
-
-</td>
-</tr>
-</table>
 
 <br />
 
